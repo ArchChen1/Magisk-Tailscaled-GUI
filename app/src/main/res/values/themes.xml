@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.TailscaleControl" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <style name="FileShareTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- 去掉 windowIsTranslucent -->
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+</resources>
