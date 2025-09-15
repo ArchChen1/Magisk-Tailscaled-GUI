@@ -1,0 +1,94 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="top.cenmin.tailcontrol">
+
+    <!-- ✅ 必要权限声明 -->
+    <!-- 前台服务运行权限（已有） -->
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE"
+        tools:ignore="ForegroundServicesPolicy" />
+
+    <!-- ✅ Android 13+ 通知权限 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- ✅ 文件访问权限（Android 13 以下仍需要） -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <!-- Android 13+ 前台服务专用权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
+
+    <application
+        android:allowBackup="true"
+        android:label="TailControl"
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/Theme.TailscaleControl">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".LogActivity"
+            android:exported="false"
+            android:label="Tailscale 日志" />
+
+        <!-- ✅ 文件分享入口，支持接收文件 -->
+        <activity
+            android:name=".FileShareActivity"
+            android:exported="true"
+            android:label="TailDrop"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/FileShareTheme"
+            android:taskAffinity="">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+        </activity>
+
+        <!-- ✅ 快捷设置 Tile -->
+        <service
+            android:name=".TailscaleTileService"
+            android:label="Tailscale"
+            android:icon="@drawable/ic_tailscale"
+            android:exported="true"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".FileTransferService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false"/>
+        <service
+            android:name=".DropProtectService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+        <service
+            android:name=".DropTileService"
+            android:label="Drop保护"
+            android:icon="@drawable/ic_tile_drop"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+    </application>
+</manifest>

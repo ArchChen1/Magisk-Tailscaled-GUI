@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 上移 1.5 dp + 放大 1.2 倍 -->
+    <group
+        android:translateY="-2.5"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:pivotX="12"
+        android:pivotY="12">
+
+        <!-- WiFi 弧线 1 -->
+        <path
+            android:fillColor="@android:color/black"
+            android:pathData="M12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"/>
+
+        <!-- WiFi 弧线 2 -->
+        <path
+            android:fillColor="@android:color/black"
+            android:pathData="M4.93,12.93c3.9,-3.9 10.24,-3.9 14.14,0l1.41,-1.41c-4.68,-4.68 -12.28,-4.68 -16.96,0l1.41,1.41z"/>
+
+        <!-- WiFi 弧线 3 -->
+        <path
+            android:fillColor="@android:color/black"
+            android:pathData="M7.76,15.76c2.34,-2.34 6.14,-2.34 8.48,0l1.41,-1.41c-3.12,-3.12 -8.18,-3.12 -11.31,0l1.42,1.41z"/>
+    </group>
+</vector>
