@@ -4,10 +4,11 @@
 ![Version](https://img.shields.io/github/v/release/ArchChen1/Magisk-Tailscaled-GUI)
 ![License](https://img.shields.io/github/license/ArchChen1/Magisk-Tailscaled-GUI)
 ![Stars](https://img.shields.io/github/stars/ArchChen1/Magisk-Tailscaled-GUI?style=social)
-
+![Downloads](https://img.shields.io/github/downloads/ArchChen1/Magisk-Tailscaled-GUI/total.svg
+)
 ## 项目简介
 
-Magisk-Tailscaled-GUI 是一个基于 Kotlin 开发的 Android 应用程序，为 Magisk-Tailscaled 提供图形化控制界面和 TailDrop 功能。由于本人没有安卓开发基础，该软件绝大多数代码基于由ChatGPT生成，可能存在不稳定性。
+Magisk-Tailscaled-GUI 是一个基于 Kotlin 开发的 Android 应用程序，为 Magisk-Tailscaled 提供图形化控制界面和 TailDrop 功能。由于本人没有安卓开发基础，该软件是在ChatGPT帮助下生成，可能存在不稳定性。
 
 ## 特点与功能
 

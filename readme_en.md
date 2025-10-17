@@ -2,10 +2,13 @@
 [简体中文](readme.md) | English
 
 This page was translated by ChatGPT 
+
+
 ![Version](https://img.shields.io/github/v/release/ArchChen1/Magisk-Tailscaled-GUI)
 ![License](https://img.shields.io/github/license/ArchChen1/Magisk-Tailscaled-GUI)
 ![Stars](https://img.shields.io/github/stars/ArchChen1/Magisk-Tailscaled-GUI?style=social)
-
+![Downloads](https://img.shields.io/github/downloads/ArchChen1/Magisk-Tailscaled-GUI/total.svg
+)
 ## Project Introduction
 
 Magisk-Tailscaled-GUI is an Android application written in Kotlin that provides a graphical interface for Magisk-Tailscaled and integrates the TailDrop feature.  
