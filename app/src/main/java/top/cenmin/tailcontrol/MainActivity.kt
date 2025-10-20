@@ -251,6 +251,7 @@ fun TailscaleControlScreen(
                     when (it) {
                         "Stopped" -> "服务已停止"
                         "Running" -> "服务运行中"
+                        "Starting" -> "服务启动中"
                         "NeedsLogin" -> "未登录"
                         else -> "未知"
                     }
@@ -312,6 +313,7 @@ fun TailscaleControlScreen(
                         val backendStateStr = when (root.optString("BackendState", "Unknown")) {
                             "Stopped" -> "服务已停止"
                             "Running" -> "服务运行中"
+                            "Starting" -> "服务启动中"
                             "NeedsLogin" -> "未登录"
                             else -> "未知"
                         }
@@ -368,6 +370,7 @@ fun TailscaleControlScreen(
             backendState.value == "服务运行中" && connection.value == "离线" -> Color(0xFFFF9800) // 粉
             backendState.value == "守护进程离线" -> Color(0xFFF44336) // 红
             backendState.value == "服务已停止" -> Color(0xFFFF8899) // 粉
+            backendState.value == "服务启动中" -> Color(0xFFFF8899) // 粉
             backendState.value == "未登录"  -> Color(0xFFFFC107) // 黄
             else -> Color.Gray
         }
@@ -421,6 +424,7 @@ fun TailscaleControlScreen(
                     "守护进程离线" -> stringResource(R.string.status_protect_offline)
                     "服务已停止" -> stringResource(R.string.status_service_stopped)
                     "未登录" -> stringResource(R.string.status_service_needslogin)
+                    "服务启动中" -> stringResource(R.string.status_service_starting)
                     else -> stringResource(R.string.unknown)
                 }
                 val displayconnect = when {
@@ -469,6 +473,7 @@ fun TailscaleControlScreen(
                             when (tailscaleStatus.value) {
                                 "服务已停止","未登录" -> executeRootCommand("tailscale up")
                                 "服务运行中" -> executeRootCommand("tailscale down")
+                                "服务启动中" -> executeRootCommand("tailscale down")
                                 "守护进程离线" -> executeRootCommand("tailscaled.service start && tailscale up")
                                 else -> executeRootCommand("tailscaled.service restart && tailscale up")
                             }
@@ -623,6 +628,7 @@ fun ADropScreen(
                 when (root.optString("BackendState", "Unknown")) {
                     "Stopped" -> "服务已停止"
                     "Running" -> "服务运行中"
+                    "Starting" -> "服务启动中"
                     "NeedsLogin" -> "未登录"
                     else -> "未知"
                 }

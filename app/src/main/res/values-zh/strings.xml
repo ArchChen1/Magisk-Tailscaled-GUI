@@ -104,4 +104,5 @@
     <string name="transfer_complete">"传输完成 "</string>
     <string name="transferring">"传输中… "</string>
     <string name="file_transfer">文件传输</string>
+    <string name="status_service_starting">服务启动中</string>
 </resources>

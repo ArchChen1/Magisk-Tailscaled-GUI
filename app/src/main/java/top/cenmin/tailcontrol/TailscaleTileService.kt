@@ -34,10 +34,10 @@ class TailscaleTileService : TileService() {
                 executeRootCommand("tailscale up")
                 newLabel = "Tailscale: 已启动"
             } else if (serviceStatus.contains("failed", ignoreCase = true)) {
-                executeRootCommand("tailscaled.service start && tailscale up --accept-dns --accept-routes")
+                executeRootCommand("tailscaled.service start && tailscale up")
                 newLabel = "Tailscale: 已启动"
             } else {
-                executeRootCommand("tailscaled.service restart && tailscale up --accept-dns --accept-routes")
+                executeRootCommand("tailscaled.service restart && tailscale up")
                 newLabel = "Tailscale: 尝试重启"
             }
 
