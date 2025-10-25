@@ -105,4 +105,6 @@
     <string name="transferring">"传输中… "</string>
     <string name="file_transfer">文件传输</string>
     <string name="status_service_starting">服务启动中</string>
+    <string name="drop_service_started">Drop守护已启动</string>
+    <string name="drop_service_stopped">Drop守护已停止</string>
 </resources>

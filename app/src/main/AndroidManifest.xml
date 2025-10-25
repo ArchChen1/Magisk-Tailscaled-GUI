@@ -2,16 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="top.cenmin.tailcontrol">
 
-    <!-- ✅ 必要权限声明 -->
+    <!-- 必要权限声明 -->
     <!-- 前台服务运行权限（已有） -->
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE"
         tools:ignore="ForegroundServicesPolicy" />
 
-    <!-- ✅ Android 13+ 通知权限 -->
+    <!-- Android 13+ 通知权限 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <!-- ✅ 文件访问权限（Android 13 以下仍需要） -->
+    <!-- 文件访问权限（Android 13 以下仍需要） -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
 
@@ -32,10 +32,18 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
+
+            <!-- 主启动入口 -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <!--  Tile 长按偏好设置入口 -->
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES"/>
             </intent-filter>
         </activity>
 
@@ -44,7 +52,7 @@
             android:exported="false"
             android:label="Tailscale 日志" />
 
-        <!-- ✅ 文件分享入口，支持接收文件 -->
+        <!--  文件分享入口，支持接收文件 -->
         <activity
             android:name=".FileShareActivity"
             android:exported="true"
@@ -59,8 +67,14 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DummyActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:excludeFromRecents="true"
+            android:taskAffinity="" />
 
-        <!-- ✅ 快捷设置 Tile -->
+        <!--  快捷设置 Tile -->
         <service
             android:name=".TailscaleTileService"
             android:label="Tailscale"
@@ -70,7 +84,10 @@
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE"/>
             </intent-filter>
+
+
         </service>
+
         <service
             android:name=".FileTransferService"
             android:foregroundServiceType="dataSync"

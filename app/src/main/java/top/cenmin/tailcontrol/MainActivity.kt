@@ -60,7 +60,8 @@ import android.Manifest
 import android.content.Context.MODE_PRIVATE
 import android.os.Build
 import androidx.compose.ui.res.stringResource
-
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.input.pointer.pointerInput
 // 全局日志
 val commandLogs = mutableStateListOf<Pair<String, String>>()
 
@@ -505,10 +506,30 @@ fun TailscaleControlScreen(
                         .nestedScroll(refreshState.nestedScrollConnection)
                         .zIndex(-1f)
                 ) {
+                    val context = LocalContext.current
+
                     LazyColumn(modifier = Modifier.fillMaxWidth().fillMaxSize()) {
                         items(deviceList.value) { device ->
                             Card(
-                                modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 4.dp)
+                                    .clickable(
+                                        indication = rememberRipple(bounded = true, color = Color(0xFF6200EE)), // 水波纹效果
+                                        interactionSource = remember { MutableInteractionSource() },
+                                        onClick = {} // 空的 onClick 处理函数
+                                    )
+                                    .pointerInput(Unit) {
+                                        detectTapGestures(
+                                            onLongPress = {
+                                                // 长按时复制 IP 地址
+                                                val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                                                val clip = ClipData.newPlainText("Device IP", device.ip)
+                                                clipboard.setPrimaryClip(clip)
+                                                Toast.makeText(context, "IP 地址已复制: ${device.ip}", Toast.LENGTH_SHORT).show()
+                                            }
+                                        )
+                                    },
                                 elevation = CardDefaults.cardElevation(4.dp)
                             ) {
                                 Row(

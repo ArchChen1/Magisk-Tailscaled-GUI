@@ -1,7 +1,9 @@
 package top.cenmin.tailcontrol
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.Intent
+import android.os.Build
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import android.util.Log
@@ -20,8 +22,23 @@ class DropTileService : TileService(), CoroutineScope {
 
     override fun onStartListening() = updateTileState()
 
-    @SuppressLint("SdCardPath")
+    @SuppressLint("SdCardPath", "StartActivityAndCollapseDeprecated")
     override fun onClick() {
+        // 关闭控制中心
+        val intent = Intent(this, DummyActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, flags)
+
+        if (Build.VERSION.SDK_INT >= 34) {
+            // Android 14+ 官方推荐写法
+            startActivityAndCollapse(pendingIntent)
+        } else {
+            // Android 13 及以下仍可使用旧方法
+            @Suppress("DEPRECATION")
+            startActivityAndCollapse(intent)
+        }
         launch {
             val enabled = prefs.getBoolean("drop_enabled", false)
 
@@ -29,8 +46,7 @@ class DropTileService : TileService(), CoroutineScope {
             if (!enabled) {
                 val (backendOk, selfOk) = checkTailscaleStatus()
                 if (!(backendOk && selfOk)) {
-                    Toast.makeText(this@DropTileService,
-                        "Tailscale ${getString(R.string.offline_now)}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DropTileService, "Tailscale ${getString(R.string.offline_now)}", Toast.LENGTH_SHORT).show()
                     return@launch        // 验证失败，什么都不做
                 }
             }
@@ -54,6 +70,16 @@ class DropTileService : TileService(), CoroutineScope {
             else startService(intent)
 
             updateTileState()
+
+            val message = if (newEnabled) {
+                getString(R.string.drop_service_started)
+            } else {
+                getString(R.string.drop_service_stopped)
+            }
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@DropTileService, message, Toast.LENGTH_SHORT).show()
+            }
             collapseQuickSettings()
         }
     }
