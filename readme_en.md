@@ -21,8 +21,8 @@ Since I have no prior Android-development experience, the vast majority of the c
 - **File Transfer** – Convenient Drop functionality built on top of Magisk-Tailscaled  
 - **Quick Settings** – One-click login/logout, common-parameter toggles, and custom-parameter support
 
-### Planned Features
-- Multi-file sending
+### Known problem
+- An exception may occur when launching the app for the first time after installation. Restart the app to resolve the issue.
 
 ## Installation Guide
 

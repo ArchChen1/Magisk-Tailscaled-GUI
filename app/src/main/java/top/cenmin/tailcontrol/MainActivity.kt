@@ -59,9 +59,8 @@ import androidx.compose.material.icons.filled.Save
 import android.Manifest
 import android.content.Context.MODE_PRIVATE
 import android.os.Build
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.ui.input.pointer.pointerInput
 // 全局日志
 val commandLogs = mutableStateListOf<Pair<String, String>>()
 
@@ -382,7 +381,7 @@ fun TailscaleControlScreen(
                 .padding(vertical = 8.dp)
                 .clickable(
                     onClick = { onClick(hostName.value) },
-                    indication = rememberRipple(), // 点击时显示水波纹
+                    indication = rememberRipple(color = Color(0xFF6200EE)), // 点击时显示水波纹
                     interactionSource = remember { MutableInteractionSource() }
                 ),
             elevation = CardDefaults.cardElevation(4.dp)
@@ -507,29 +506,47 @@ fun TailscaleControlScreen(
                         .zIndex(-1f)
                 ) {
                     val context = LocalContext.current
+                    val clickLocked = remember { mutableStateOf(true) }
 
-                    LazyColumn(modifier = Modifier.fillMaxWidth().fillMaxSize()) {
-                        items(deviceList.value) { device ->
+                    LaunchedEffect(!clickLocked.value) {
+                        if (!clickLocked.value) {
+                            delay(3000)
+                            clickLocked.value = true
+                        }
+                    }
+
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxSize()
+                    ) {
+                        items(
+                            items = deviceList.value,
+                            key = { device -> device.name }
+                        ) { device ->
                             Card(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 4.dp)
-                                    .clickable(
-                                        indication = rememberRipple(bounded = true, color = Color(0xFF6200EE)), // 水波纹效果
-                                        interactionSource = remember { MutableInteractionSource() },
-                                        onClick = {} // 空的 onClick 处理函数
-                                    )
-                                    .pointerInput(Unit) {
-                                        detectTapGestures(
-                                            onLongPress = {
-                                                // 长按时复制 IP 地址
-                                                val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                                                val clip = ClipData.newPlainText("Device IP", device.ip)
-                                                clipboard.setPrimaryClip(clip)
-                                                Toast.makeText(context, "IP 地址已复制: ${device.ip}", Toast.LENGTH_SHORT).show()
+                                    .combinedClickable(
+                                        onClick = {
+                                            if (clickLocked.value) {
+                                                clickLocked.value = false
+                                                Toast.makeText(context, "长按复制 IP 地址", Toast.LENGTH_SHORT).show()
                                             }
-                                        )
-                                    },
+                                        },
+                                        onLongClick = {
+                                            val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                                            val clip = ClipData.newPlainText("Device IP", device.ip)
+                                            clipboard.setPrimaryClip(clip)
+                                            Toast.makeText(context, "IP 地址已复制: ${device.ip}", Toast.LENGTH_SHORT).show()
+                                        },
+                                        indication = rememberRipple(
+                                            bounded = true,
+                                            color = Color(0xFF6200EE)
+                                        ),
+                                        interactionSource = remember { MutableInteractionSource() }
+                                    ),
                                 elevation = CardDefaults.cardElevation(4.dp)
                             ) {
                                 Row(
@@ -545,16 +562,17 @@ fun TailscaleControlScreen(
                                     Column {
                                         Text("${stringResource(R.string.name)}: ${device.name}", style = MaterialTheme.typography.titleMedium)
                                         Text("IP: ${device.ip}", style = MaterialTheme.typography.bodyMedium)
-                                        if (!device.online) Text(
-                                            "${stringResource(R.string.last_seen)}: ${device.lastSeen}",
-                                            style = MaterialTheme.typography.bodyMedium
-                                        )
+                                        if (!device.online) {
+                                            Text(
+                                                "${stringResource(R.string.last_seen)}: ${device.lastSeen}",
+                                                style = MaterialTheme.typography.bodyMedium
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-
                     PullToRefreshContainer(
                         state = refreshState,
                         modifier = Modifier
