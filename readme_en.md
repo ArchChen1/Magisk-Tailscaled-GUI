@@ -41,10 +41,10 @@ Since I have no prior Android-development experience, the vast majority of the c
 ## Preview Screenshots
 
 <div align="center">
-  <img src="screenshots/en/home_screen.jpg" width="20%" alt="Home">
-  <img src="screenshots/en/drop_screen.jpg" width="20%" alt="TailDrop">
-  <img src="screenshots/en/drop_screen2.jpg" width="20%" alt="TailDrop 2">
-  <img src="screenshots/en/settings_screen.jpg" width="20%" alt="Settings">
+  <img src="screenshots/en/home_screen.jpg" width="18%" alt="Home">
+  <img src="screenshots/en/drop_screen.jpg" width="18%" alt="TailDrop">
+  <img src="screenshots/en/drop_screen2.jpg" width="18%" alt="TailDrop 2">
+  <img src="screenshots/en/settings_screen.jpg" width="18%" alt="Settings">
   <img src="screenshots/en/accounts_screen.jpg" width="18%" alt="accounts">
 </div>
 
