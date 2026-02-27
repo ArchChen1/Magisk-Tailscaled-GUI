@@ -112,4 +112,13 @@
     <string name="status_service_starting">Starting</string>
     <string name="drop_service_started">Drop Daemon Started</string>
     <string name="drop_service_stopped">Drop Daemon Stopped</string>
+    <string name="add_new_acc">Add another acccount</string>
+    <string name="url_copied">URL Copied</string>
+    <string name="tailscale_accounts">Tailscale Accounts</string>
+    <string name="admin_console">Open admin console</string>
+    <string name="current">Current</string>
+    <string name="switching">Switching...</string>
+    <string name="switched">Account Switched</string>
+    <string name="long_press_to_copy">Long press to copy IP</string>
+    <string name="ip_copied">IP copied:</string>
 </resources>

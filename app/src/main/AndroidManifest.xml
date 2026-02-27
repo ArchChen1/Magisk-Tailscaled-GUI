@@ -73,6 +73,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:excludeFromRecents="true"
             android:taskAffinity="" />
+        <activity
+            android:name=".ManageActivity"
+            android:exported="false" />
 
         <!--  快捷设置 Tile -->
         <service

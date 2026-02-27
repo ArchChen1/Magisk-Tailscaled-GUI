@@ -107,4 +107,13 @@
     <string name="status_service_starting">服务启动中</string>
     <string name="drop_service_started">Drop守护已启动</string>
     <string name="drop_service_stopped">Drop守护已停止</string>
+    <string name="add_new_acc">添加新账户</string>
+    <string name="url_copied">已复制登录链接</string>
+    <string name="tailscale_accounts">Tailscale 账户</string>
+    <string name="admin_console">打开控制台</string>
+    <string name="current">当前账户</string>
+    <string name="switching">正在切换…</string>
+    <string name="switched">账户已切换</string>
+    <string name="long_press_to_copy">长按复制 IP 地址</string>
+    <string name="ip_copied">IP 地址已复制:</string>
 </resources>

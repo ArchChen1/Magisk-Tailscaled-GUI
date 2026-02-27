@@ -23,6 +23,7 @@ Since I have no prior Android-development experience, the vast majority of the c
 
 ### Known problem
 - An exception may occur when launching the app for the first time after installation. Restart the app to resolve the issue.
+- After version 2.0 of Anasfanani/Magisk-Tailscaled, the tailscale file command is no longer supported.
 
 ## Installation Guide
 

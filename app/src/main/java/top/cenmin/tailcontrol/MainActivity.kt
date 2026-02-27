@@ -49,7 +49,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.core.content.edit
-import androidx.core.net.toUri
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -279,7 +278,6 @@ fun TailscaleControlScreen(
 
     LaunchedEffect(autoRefresh) {
         if (!isLoading) {
-            isLoading = true
             refreshStatus()
             isLoading = false
         }
@@ -532,14 +530,14 @@ fun TailscaleControlScreen(
                                         onClick = {
                                             if (clickLocked.value) {
                                                 clickLocked.value = false
-                                                Toast.makeText(context, "长按复制 IP 地址", Toast.LENGTH_SHORT).show()
+                                                Toast.makeText(context, context.getString(R.string.long_press_to_copy), Toast.LENGTH_SHORT).show()
                                             }
                                         },
                                         onLongClick = {
                                             val clipboard = context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                                             val clip = ClipData.newPlainText("Device IP", device.ip)
                                             clipboard.setPrimaryClip(clip)
-                                            Toast.makeText(context, "IP 地址已复制: ${device.ip}", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, "${context.getString(R.string.ip_copied)} ${device.ip}", Toast.LENGTH_SHORT).show()
                                         },
                                         indication = rememberRipple(
                                             bounded = true,
@@ -1150,10 +1148,6 @@ fun ASettingsScreen(
     val context = LocalContext.current
     var showErrorDialog by remember { mutableStateOf(false to "") }
     var showSaveDialog by remember { mutableStateOf(false to "") }
-    var showLoginDialog by remember { mutableStateOf(false to "") }
-    var showLogoutConfirm by remember { mutableStateOf(false) }
-    var showSuccessDialog by remember { mutableStateOf(false) }
-    var loginUrl by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit) {
         try {
@@ -1186,11 +1180,8 @@ fun ASettingsScreen(
     @Composable
     fun SettingsScreen(
         username: String,
-        isLoggedIn: Boolean,
         initialSettings: TailscaleSettings,
-        onSave: (TailscaleSettings) -> Unit,
-        onLogin: () -> Unit,
-        onRequestLogout: () -> Unit
+        onSave: (TailscaleSettings) -> Unit
     ) {
         var localSettings by remember { mutableStateOf(initialSettings) }
 
@@ -1271,23 +1262,15 @@ fun ASettingsScreen(
                             // 控制按钮的位置
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                                 val context = LocalContext.current
-                                Button(onClick = {
-                                    try {
-                                        val intent = Intent(
-                                            Intent.ACTION_VIEW,
-                                            "https://login.tailscale.com/admin/machines".toUri()
-                                        )
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                Button(
+                                    onClick = {
+                                        val intent = Intent(context, ManageActivity::class.java).apply {
+                                            putExtra("LOGIN_ARGS", settings.value.toArgs())
+                                        }
                                         context.startActivity(intent)
-                                    } catch (e: Exception) {
-                                        Toast.makeText(context, "${context.getString(R.string.unable_browser)}: ${e.message}", Toast.LENGTH_SHORT).show()
                                     }
-                                }) {
+                                ) {
                                     Text(context.getString(R.string.manage))
-                                }
-
-                                Button(onClick = { if (isLoggedIn) onRequestLogout() else onLogin() }) {
-                                    Text(if (isLoggedIn) context.getString(R.string.logout) else context.getString(R.string.login))
                                 }
                             }
                         }
@@ -1398,7 +1381,6 @@ fun ASettingsScreen(
     }
     SettingsScreen(
         username = username.value,
-        isLoggedIn = isLoggedIn.value,
         initialSettings = settings.value,
         onSave = { newSettings ->
             Thread {
@@ -1411,172 +1393,32 @@ fun ASettingsScreen(
                     showSaveDialog = true to result
                 }
             }.start()
-        },
-        onLogin = {
-            showLoginDialog = true to context.getString(R.string.waiting_link)
-            loginUrl = ""
-
-            Thread {
-                try {
-                    val process = Runtime.getRuntime().exec(arrayOf("su", "-c", "tailscale login ${settings.value.toArgs()}" ))
-
-                    // 读取 stderr
-                    val stderrReader = process.errorStream.bufferedReader()
-                    Thread {
-                        stderrReader.forEachLine { line ->
-                            CoroutineScope(Dispatchers.Main).launch {
-                                // 确保这一行里确实有 https:// 再提取
-                                if ("https://" in line) {
-                                    val url = line.substringAfter("https://")
-                                        .substringBefore(' ')          // 遇到空格截断
-                                        .takeIf { it.isNotEmpty() } ?: return@launch
-
-                                    loginUrl = "https://$url"
-                                    showLoginDialog = true to ("${context.getString(R.string.login_link)}: $loginUrl")
-                                    Toast.makeText(context, context.getString(R.string.get_link), Toast.LENGTH_LONG).show()
-                                }
-
-                                // 检测登录成功
-                                if (line.contains("Success.")) {
-                                    showLoginDialog = true to context.getString(R.string.login_success)
-                                }
-                            }
-                        }
-                    }.start()
-
-                    process.waitFor()
-                    process.destroy()
-                } catch (e: Exception) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        showLoginDialog = true to "${context.getString(R.string.get_link_failed)}: ${e.message}"
-                    }
-                }
-            }.start()
-        },
-        onRequestLogout = { showLogoutConfirm = true }
+        }
     )
 
     // tailscale set 异常弹窗
     if (showErrorDialog.first) {
         AlertDialog(
-            onDismissRequest = { showErrorDialog = false to "" },
+            onDismissRequest = {showErrorDialog = false to "" },
             title = { Text(context.getString(R.string.save_failed)) },
             text = { Text("${context.getString(R.string.save_failed_text)}：\n${showErrorDialog.second}") },
             confirmButton = {
-                TextButton(onClick = { showErrorDialog = false to "" }) {
+                TextButton(onClick = {showErrorDialog = false to "" }) {
                     Text(context.getString(R.string.done))
                 }
             }
         )
     }
+
     // 保存成功弹窗
     if (showSaveDialog.first) {
 
         AlertDialog(
-            onDismissRequest = { showSaveDialog = false to "" },
+            onDismissRequest = {showSaveDialog = false to "" },
             title = { Text(context.getString(R.string.save_success)) },
             confirmButton = {
-                TextButton(onClick = { showSaveDialog = false to "" }) {
+                TextButton(onClick = {showSaveDialog = false to "" }) {
                     Text(context.getString(R.string.done))
-                }
-            }
-        )
-    }
-    // 登录弹窗（显示链接）
-    if (showLoginDialog.first) {
-        AlertDialog(
-            onDismissRequest = { },
-            title = { Text("Tailscale ${context.getString(R.string.login)}") },
-            text = { Text(showLoginDialog.second) },
-            confirmButton = {
-                if (showLoginDialog.second.contains("成功") || showLoginDialog.second.contains("success")) {
-                    TextButton(onClick = { showLoginDialog = false to "" }) {
-                        Text(context.getString(R.string.done))
-                    }
-                } else {
-                    Row {
-                        TextButton(onClick = {
-                            if (loginUrl.isNotEmpty()) {
-                                // 复制到剪贴板
-                                val clipboard =
-                                    context.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-                                clipboard.setPrimaryClip(
-                                    ClipData.newPlainText(
-                                        "Tailscale Login",
-                                        loginUrl
-                                    )
-                                )
-                                Toast.makeText(
-                                    context,
-                                    "已复制登录链接",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                // 打开浏览器
-                                try {
-                                    val intent =
-                                        Intent(Intent.ACTION_VIEW, loginUrl.toUri())
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) // 防止非 Activity Context 崩溃
-                                    context.startActivity(intent)
-                                } catch (e: Exception) {
-                                    Toast.makeText(
-                                        context,
-                                        "${context.getString(R.string.unable_browser)}：${e.message}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }
-                        }) {
-                            Text(context.getString(R.string.copy_open))
-                        }
-                        TextButton(onClick = {
-                            showLoginDialog = false to ""
-                        }) {
-                            Text(context.getString(R.string.cancel))
-                        }
-                    }
-                }
-            }
-        )
-    }
-
-    // 登录成功弹窗
-    if (showSuccessDialog) {
-        AlertDialog(
-            onDismissRequest = { showSuccessDialog = false },
-            title = { Text(context.getString(R.string.login_succes2)) },
-            text = { Text(context.getString(R.string.login_success)) },
-            confirmButton = {
-                TextButton(onClick = { showSuccessDialog = false }) {
-                    Text(context.getString(R.string.done))
-                }
-            }
-        )
-    }
-
-    // 注销确认弹窗
-    if (showLogoutConfirm) {
-        AlertDialog(
-            onDismissRequest = { showLogoutConfirm = false },
-            title = { Text(context.getString(R.string.confirm_sign_out)) },
-            text = { Text(context.getString(R.string.confirm_sign_out_text)) },
-            confirmButton = {
-                TextButton(onClick = {
-                    showLogoutConfirm = false
-                    Thread {
-                        executeRootCommand("tailscale logout")
-                        CoroutineScope(Dispatchers.Main).launch {
-                            isLoggedIn.value = false
-                            username.value = context.getString(R.string.status_service_needslogin)
-                        }
-                    }.start()
-                }) {
-                    Text(context.getString(R.string.logout))
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showLogoutConfirm = false }) {
-                    Text(context.getString(R.string.cancel))
                 }
             }
         )
