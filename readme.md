@@ -36,10 +36,11 @@ Magisk-Tailscaled-GUI 是一个基于 Kotlin 开发的 Android 应用程序，�
 ## 预览截图
 
 <div align="center">
-  <img src="screenshots/home_screen.jpg" width="20%" alt="主页">
-  <img src="screenshots/drop_screen.jpg" width="20%" alt="传送">
-  <img src="screenshots/drop_screen2.jpg" width="20%" alt="传送2">
-  <img src="screenshots/settings_screen.jpg" width="20%" alt="设置">
+  <img src="screenshots/home_screen.jpg" width="18%" alt="主页">
+  <img src="screenshots/drop_screen.jpg" width="18%" alt="传送">
+  <img src="screenshots/drop_screen2.jpg" width="18%" alt="传送2">
+  <img src="screenshots/settings_screen.jpg" width="18%" alt="设置">
+  <img src="screenshots/accounts_screen.jpg" width="18%" alt="账户">
 </div>
 
 
