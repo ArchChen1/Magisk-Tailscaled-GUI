@@ -1,124 +1,226 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="msg_file_get_success">file get srtarted, PPID=%1$d, PID=%2$d</string>
-    <string name="msg_file_get_success_but_pid_failed">"file get srtarted, But the real PID (PPID %1$d) was not found. "</string>
-    <string name="msg_file_get_unexpected">file get unexpected，error：%1$s</string>
-    <string name="msg_stop_file_get">file get stopped，PID=%1$d</string>
-    <string name="home">Home</string>
-    <string name="drop">Drop</string>
-    <string name="settings">Settings</string>
-    <string name="get_root_failed_title">"Root access missing "</string>
-    <string name="get_root_failed_msg">"The current device does not have root access; this app cannot run properly. "</string>
-    <string name="exit">Exit</string>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
+
+    <!-- App -->
+    <string name="app_name">TailControl</string>
+    <string name="share_label">TailDrop</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_drop">Drop</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_accounts">Accounts</string>
+    <string name="nav_netcheck">Netcheck</string>
+    <string name="nav_traffic">Traffic</string>
+    <string name="nav_logs">Logs</string>
+
+    <!-- Status -->
     <string name="status">Status</string>
     <string name="status_online">Online</string>
     <string name="status_offline">Offline</string>
-    <string name="status_service_running">Service is Running</string>
-    <string name="status_service_stopped">Service is Stopped</string>
-    <string name="status_service_needslogin">Needs Login</string>
+    <string name="status_service_running">Service running</string>
+    <string name="status_service_stopped">Service stopped</string>
+    <string name="status_service_starting">Starting</string>
+    <string name="status_service_needslogin">Needs login</string>
+    <string name="status_protect_offline">Daemon offline</string>
     <string name="unknown">Unknown</string>
-    <string name="rename">rename</string>
-    <string name="skip">skip</string>
-    <string name="overwrite">overwrite</string>
-    <string name="status_protect_offline">"Daemon offline "</string>
-    <!-- 界面 -->
-    <string name="hostname">Host Name</string>
-    <string name="last_seen">Last seen</string>
 
-    <!-- 按钮 -->
-    <string name="loading">Loading……</string>
-
-    <!-- Netcheck -->
-    <string name="close">close</string>
-    <string name="device_list">"Nodes: "</string>
-    <string name="name">Name</string>
-    <string name="netcheck_report_title">Net Check</string>
-    <string name="netcheck_report_failed">Net Check report failed</string>
-    <string name="start_tailscale">Start Tailscale</string>
-    <string name="stop_tailscale">Stop Tailscale</string>
-    <string name="path_selected">Path selected</string>
-    <string name="select_file">Select</string>
-    <string name="select_path">Select</string>
-    <string name="current_path">Current path</string>
-    <string name="conflict_behavior">Conflict behavior</string>
-    <string name="file_receiver_daemon">File Receiver Daemon</string>
-    <string name="share_file">Share file</string>
-    <string name="test">Test</string>
+    <!-- Common -->
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
-    <string name="conflict_behavior_set_to">Conflict behavior set to</string>
-    <string name="ping_placeholder">IP/Node name</string>
     <string name="done">OK</string>
-    <string name="fix_duplicate_file">Fix duplicate file</string>
-    <string name="execute">Execute</string>
-    <string name="oops">Oops (⊙o⊙)?</string>
-    <string name="no_tail_process">No Tailscale process is currently running.</string>
-    <string name="only_one_process">"Only one Tailscale process is running—likely normal. Kill all Tailscale processes anyway? "</string>
-    <string name="multi_process">Multiple Tailscale processes detected. Kill all Tailscale processes?</string>
-    <string name="kill_process">"Kill all Tailscale processes "</string>
-    <string name="tip">tip: After changing the save path or conflict rule, flip the switch off/on to apply.</string>
-    <string name="daemon_output">Daemon output</string>
-    <string name="user">User</string>
-    <string name="tailscale_settings">Tailscale Settings</string>
-    <string name="manage">Manage</string>
-    <string name="logout">Logout</string>
-    <string name="login">Login</string>
-    <string name="unable_browser">Unable to open browser</string>
-    <string name="subnet">Subnet routes</string>
-    <string name="accept_dns">accept DNS configuration from admin panel</string>
-    <string name="advertise_exit_node">Run as exit node</string>
-    <string name="exit_node">Exit node</string>
-    <string name="advertise_subnets_routes">Advertised routes</string>
-    <string name="hostname_set">Hostname</string>
-    <string name="custom_parameters">Custom parameters</string>
-    <string name="exit_node_descripe">Node name/IP address; leave blank to disable</string>
-    <string name="advertise_subnets_routes_descripe">Enter CIDR blocks; leave blank to disable (e.g., 10.0.0.0/24,10.0.1.0/24).</string>
-    <string name="hostname_set_descripe">Custom host name; leave blank to reuse the last one.</string>
-    <string name="waiting_link">Waiting for link……</string>
-    <string name="login_link">Login link</string>
-    <string name="get_link">"Link obtained successfully "</string>
-    <string name="get_link_failed">Failed to obtain link</string>
-    <string name="login_success">Tailscale login successful!</string>
-    <string name="save_failed">Save failed</string>
-    <string name="save_failed_text">"tailscale set returned an error: "</string>
-    <string name="save_success">Saved successfully</string>
-    <string name="link_copied">Login link copied</string>
-    <string name="copy_open">Copy and open in browser</string>
-    <string name="login_succes2">"Login successful "</string>
-    <string name="confirm_sign_out">Confirm Sign-Out?</string>
-    <string name="confirm_sign_out_text">Are you sure you want to sign out of Tailscale?</string>
-    <string name="Daemon_running">Daemon is running</string>
-    <string name="drop_stop_due_to_tail">Current status is not “running”; Drop daemon will not be started.</string>
-    <string name="offline_now">Offline</string>
-    <string name="drop_label">Drop Daemon</string>
-    <string name="waiting">Waiting……</string>
-    <string name="transfer_status">Transfer status: %1s</string>
-    <string name="force_cancel_transfer">Force cancel</string>
-    <string name="force_cancel_warn">Canceling now will restart the Tailscale service while the file is still transferring.\nIf the next transfer fails, try restarting Tailscale on the receiving device.</string>
-    <string name="transfer_canceled">Transfer canceled</string>
-    <string name="drop_canceling">Canceling</string>
-    <string name="cancel_please_wait">Canceling, please wait…</string>
-    <string name="operation_complete">Complete</string>
-    <string name="tailreboot">transfer canceled, Tailscale service restarted.</string>
-    <string name="device_list_autofresh">Nodes: (auto-refresh in %1$d s)</string>
-    <string name="force_cancel_title">Confirm cancel transfer?</string>
+    <string name="close">Close</string>
+    <string name="exit">Exit</string>
+    <string name="loading">Loading…</string>
     <string name="refresh">Refresh</string>
+    <string name="retry">Retry</string>
+    <string name="execute">Execute</string>
+    <string name="save">Save</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
+    <string name="clear">Clear</string>
+    <string name="copy">Copy</string>
+    <string name="copy_open">Copy &amp; open in browser</string>
+    <string name="long_press_to_copy">Long-press to copy IP</string>
+    <string name="ip_copied">IP copied:</string>
+    <string name="url_copied">URL copied</string>
+    <string name="never">Never</string>
+    <string name="none">None</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="not_running">Not running</string>
+
+    <!-- Root -->
+    <string name="get_root_failed_title">Root access missing</string>
+    <string name="get_root_failed_msg">This device does not grant root; the app cannot work properly.</string>
+
+    <!-- Home -->
+    <string name="hostname">Host</string>
+    <string name="last_seen">Last seen</string>
+    <string name="device_list">Nodes</string>
+    <string name="device_list_autofresh">Nodes (auto-refresh in %1$ds)</string>
+    <string name="start_tailscale">Start Tailscale</string>
+    <string name="stop_tailscale">Stop Tailscale</string>
+    <string name="netcheck_report_title">Netcheck</string>
+    <string name="netcheck_report_failed">Netcheck failed</string>
+
+    <!-- Settings -->
+    <string name="tailscale_settings">Tailscale settings</string>
+    <string name="user">User</string>
+    <string name="manage">Manage</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="login_link">Login link</string>
+    <string name="login_success">Login successful!</string>
+    <string name="get_link">Login link obtained</string>
+    <string name="get_link_failed">Failed to obtain link</string>
+    <string name="login_succes2">Login successful</string>
+    <string name="confirm_sign_out">Confirm sign-out?</string>
+    <string name="confirm_sign_out_text">Are you sure you want to sign out of Tailscale?</string>
+    <string name="unable_browser">Unable to open browser</string>
+    <string name="waiting_link">Waiting for link…</string>
+    <string name="subnet">Accept subnet routes</string>
+    <string name="accept_dns">Accept DNS from admin panel</string>
+    <string name="advertise_exit_node">Advertise as exit node</string>
+    <string name="exit_node">Exit node</string>
+    <string name="exit_node_descripe">Node name/IP; leave blank to disable</string>
+    <string name="advertise_subnets_routes">Advertised routes</string>
+    <string name="advertise_subnets_routes_descripe">CIDR list, e.g. 10.0.0.0/24,10.0.1.0/24</string>
+    <string name="hostname_set">Hostname</string>
+    <string name="hostname_set_descripe">Custom host name; leave blank to keep last.</string>
+    <string name="custom_parameters">Custom parameters</string>
+    <string name="save_failed">Save failed</string>
+    <string name="save_failed_text">tailscale set returned an error</string>
+    <string name="save_success">Saved successfully</string>
+    <string name="dynamic_color">Material You dynamic color</string>
+    <string name="dynamic_color_desc">Theme follows wallpaper (Android 12+)</string>
+
+    <!-- Drop -->
+    <string name="drop_label">Drop daemon</string>
+    <string name="drop_service_started">Drop daemon started</string>
+    <string name="drop_service_stopped">Drop daemon stopped</string>
+    <string name="drop_stop_due_to_tail">Tailscale not running; Drop daemon will not start.</string>
+    <string name="rename">Rename</string>
+    <string name="skip">Skip</string>
+    <string name="overwrite">Overwrite</string>
+    <string name="path_selected">Path selected</string>
+    <string name="select_file">Select</string>
+    <string name="select_path">Path</string>
+    <string name="current_path">Path</string>
+    <string name="conflict_behavior">Conflict behavior</string>
+    <string name="file_receiver_daemon">File receiver daemon</string>
+    <string name="share_file">Share file</string>
+    <string name="conflict_behavior_set_to">Conflict behavior set to</string>
+    <string name="ping_placeholder">IP / node name</string>
+    <string name="test">Test</string>
+    <string name="fix_duplicate_file">Fix duplicate processes</string>
+    <string name="oops">Oops</string>
+    <string name="no_tail_process">No Tailscale process is running.</string>
+    <string name="only_one_process">A small number of Tailscale processes are running. Kill all?</string>
+    <string name="multi_process">Multiple Tailscale processes detected. Kill all?</string>
+    <string name="kill_process">Kill all Tailscale processes</string>
+    <string name="tip">Tip: after changing path or rule, toggle the switch off/on to apply.</string>
+    <string name="daemon_output">Daemon output</string>
+    <string name="msg_file_get_success">file get started, PPID=%1$d, PID=%2$d</string>
+    <string name="msg_file_get_success_but_pid_failed">file get started, but real PID for PPID=%1$d not found.</string>
+    <string name="msg_file_get_unexpected">file get unexpected error: %1$s</string>
+    <string name="msg_stop_file_get">file get stopped, PID=%1$d</string>
+    <string name="msg_file_get_failed_no_ppid">Failed to start file get: no PPID returned</string>
+    <string name="Daemon_running">Daemon running</string>
+    <string name="offline_now">Offline</string>
+
+    <!-- File transfer -->
+    <string name="transfer_status">Transfer: %1$s</string>
+    <string name="force_cancel_transfer">Force cancel</string>
+    <string name="force_cancel_warn">Cancelling now restarts the Tailscale service while the file is still transferring. If the next transfer fails, restart Tailscale on the receiving device.</string>
+    <string name="transfer_canceled">Transfer cancelled</string>
+    <string name="drop_canceling">Cancelling</string>
+    <string name="cancel_please_wait">Cancelling, please wait…</string>
+    <string name="operation_complete">Done</string>
+    <string name="tailreboot">Transfer cancelled, Tailscale service restarted.</string>
+    <string name="force_cancel_title">Cancel transfer?</string>
     <string name="send">Send</string>
-    <string name="tailscale_not_running">Tailscale service not detected—start it now?</string>
-    <string name="tailnet_unreachable">Can’t reach the Tailnet—check your network connection</string>
+    <string name="tailscale_not_running">Tailscale service not detected. Start it now?</string>
+    <string name="tailnet_unreachable">Cannot reach the Tailnet — check your network.</string>
     <string name="transfer_complete">Transfer complete</string>
-    <string name="transferring">Transferring… </string>
-    <string name="file_transfer">File Transfer</string>
-    <string name="status_service_starting">Starting</string>
-    <string name="drop_service_started">Drop Daemon Started</string>
-    <string name="drop_service_stopped">Drop Daemon Stopped</string>
-    <string name="add_new_acc">Add another acccount</string>
-    <string name="url_copied">URL Copied</string>
-    <string name="tailscale_accounts">Tailscale Accounts</string>
+    <string name="transfer_failed">Transfer failed: %1$s</string>
+    <string name="transferring">Transferring…</string>
+    <string name="file_transfer">File transfer</string>
+    <string name="waiting">Waiting…</string>
+
+    <!-- Accounts -->
+    <string name="add_new_acc">Add another account</string>
+    <string name="tailscale_accounts">Tailscale accounts</string>
     <string name="admin_console">Open admin console</string>
     <string name="current">Current</string>
-    <string name="switching">Switching...</string>
-    <string name="switched">Account Switched</string>
-    <string name="long_press_to_copy">Long press to copy IP</string>
-    <string name="ip_copied">IP copied:</string>
+    <string name="switching">Switching…</string>
+    <string name="switched">Account switched</string>
+
+    <!-- Netcheck -->
+    <string name="netcheck_run">Run netcheck</string>
+    <string name="netcheck_history">History</string>
+    <string name="netcheck_clear_history">Clear history</string>
+    <string name="netcheck_history_empty">No history yet — run a check.</string>
+
+    <!-- Logs -->
+    <string name="log_source_tailscaled">tailscaled.log</string>
+    <string name="log_source_runs">runs.log</string>
+    <string name="log_pause">Pause</string>
+    <string name="log_resume">Resume</string>
+    <string name="log_clear">Clear</string>
+
+    <!-- Traffic -->
+    <string name="traffic_rx">Download</string>
+    <string name="traffic_tx">Upload</string>
+    <string name="traffic_rx_total">RX total: %1$s</string>
+    <string name="traffic_tx_total">TX total: %1$s</string>
+    <string name="traffic_no_data">No tailscale0 interface yet — start Tailscale to see traffic.</string>
+
+    <!-- Peer detail -->
+    <string name="peer_detail">Node detail</string>
+    <string name="peer_os">OS</string>
+    <string name="peer_relay">Relay</string>
+    <string name="peer_routes">Primary routes</string>
+    <string name="peer_allowed_ips">Allowed IPs</string>
+    <string name="peer_exit_node_option">Can act as exit node</string>
+    <string name="peer_is_exit_node">Currently used as exit node</string>
+    <string name="peer_addresses">Addresses</string>
+    <string name="peer_active">Active</string>
+    <string name="peer_start_ping">Start ping</string>
+    <string name="peer_stop_ping">Stop</string>
+    <string name="peer_ping_avg">avg</string>
+    <string name="peer_ping_p95">p95</string>
+    <string name="peer_ping_count">samples</string>
+
+    <!-- Exit node picker -->
+    <string name="exit_node_picker_title">Pick exit node</string>
+    <string name="exit_node_none">No exit node</string>
+
+    <!-- Subnet editor -->
+    <string name="subnet_editor_title">Advertised routes</string>
+    <string name="subnet_add">Add CIDR</string>
+    <string name="subnet_invalid">Invalid CIDR</string>
+
+    <!-- Splash / chips -->
+    <string name="back">Back</string>
+
+    <!-- New (post-launch) -->
+    <string name="peer_owner">Owner</string>
+    <string name="peer_user">User</string>
+    <string name="peer_machine">Machine</string>
+    <string name="peer_ssh_command">Tailscale SSH</string>
+    <string name="peer_ssh_hint">Run this command on a machine with the tailscale CLI to SSH into this node.</string>
+
+    <string name="exit_node_suggest_use">Use suggested: %1$s</string>
+
+    <string name="drop_unavailable_title">Drop unavailable</string>
+    <string name="drop_unavailable_msg">The current tailscale binary (1.90+) no longer ships the `file` subcommand. The receiver daemon and shared-file flow need a tailscale build that still includes file get/cp.</string>
+
+    <string name="advertise_ssh">Advertise as Tailscale SSH server</string>
+    <string name="advertise_ssh_desc">Other tailnet nodes can ssh into this device — uses tailscaled\'s built-in SSH, no system sshd required.</string>
+
+    <string name="dns_tailscale_dns">Tailscale DNS</string>
+    <string name="dns_enabled">enabled</string>
+    <string name="dns_disabled">disabled</string>
+
 </resources>
