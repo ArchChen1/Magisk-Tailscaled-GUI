@@ -1,9 +1,20 @@
-<resources>
-    <style name="Theme.TailscaleControl" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">@android:color/white</item>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 主题：交给 Compose dynamicColorScheme 处理颜色，这里只设最少必要项 -->
+    <style name="Theme.TailControl" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
     </style>
-    <style name="FileShareTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- 去掉 windowIsTranslucent -->
-        <item name="android:windowBackground">@android:color/white</item>
+
+    <!-- Splash Screen 主题（AndroidX core-splashscreen 1.0.x） -->
+    <style name="Theme.TailControl.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_tailscale_splash</item>
+        <item name="postSplashScreenTheme">@style/Theme.TailControl</item>
     </style>
+
 </resources>

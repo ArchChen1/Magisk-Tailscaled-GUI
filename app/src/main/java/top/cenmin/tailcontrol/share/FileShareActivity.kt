@@ -1,34 +1,28 @@
-package top.cenmin.tailcontrol
+package top.cenmin.tailcontrol.share
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import top.cenmin.tailcontrol.core.data.PreferencesRepository
-import top.cenmin.tailcontrol.ui.nav.TailNavGraph
+import top.cenmin.tailcontrol.R
 import top.cenmin.tailcontrol.ui.theme.TailControlTheme
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
-
-    @Inject lateinit var prefs: PreferencesRepository
+class FileShareActivity : ComponentActivity() {
 
     private val notifPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* ignore */ }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         if (!Shell.getShell().isRoot) {
             AlertDialog.Builder(this)
@@ -44,10 +38,23 @@ class MainActivity : ComponentActivity() {
             notifPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
 
+        val uri: Uri? = if (Build.VERSION.SDK_INT >= 33) {
+            intent?.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
+        } else {
+            @Suppress("DEPRECATION") intent?.getParcelableExtra(Intent.EXTRA_STREAM)
+        }
+
+        if (uri == null) {
+            finish()
+            return
+        }
+
         setContent {
-            val dynamic by prefs.dynamicColorEnabled.collectAsState(initial = true)
-            TailControlTheme(dynamicColor = dynamic) {
-                TailNavGraph()
+            TailControlTheme {
+                FileShareScreen(
+                    uri = uri,
+                    onClose = { finishAffinity() },
+                )
             }
         }
     }
