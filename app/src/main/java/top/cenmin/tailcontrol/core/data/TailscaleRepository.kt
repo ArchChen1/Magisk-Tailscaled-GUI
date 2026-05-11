@@ -160,4 +160,21 @@ class TailscaleRepository @Inject constructor(
     /** Advertise 本机为 Tailscale SSH server（让其他 tailnet 节点可 ssh 进来）。 */
     suspend fun setSshServer(enabled: Boolean): CommandResult =
         shell.exec("tailscale set --ssh=$enabled")
+
+    /**
+     * 解析当前 shell 实际会调用的 tailscale / tailscaled / tailscaled.service 路径。
+     * 走 RootShell 的兜底 PATH，能反映出二进制到底是 magic mount 的系统位置，
+     * 还是 fallback 到 /data/adb/tailscale/bin。
+     */
+    suspend fun resolveBinaries(): BinaryPaths = BinaryPaths(
+        tailscale = shell.execText("command -v tailscale").trim().ifBlank { null },
+        tailscaled = shell.execText("command -v tailscaled").trim().ifBlank { null },
+        service = shell.execText("command -v tailscaled.service").trim().ifBlank { null },
+    )
 }
+
+data class BinaryPaths(
+    val tailscale: String?,
+    val tailscaled: String?,
+    val service: String?,
+)

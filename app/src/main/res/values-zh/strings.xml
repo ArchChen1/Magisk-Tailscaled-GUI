@@ -93,6 +93,9 @@
     <string name="save_success">保存成功</string>
     <string name="dynamic_color">动态主题色 (Material You)</string>
     <string name="dynamic_color_desc">跟随系统壁纸（Android 12+）</string>
+    <string name="binary_path_title">二进制路径</string>
+    <string name="binary_path_desc">实际由 root shell 通过 PATH 解析得到</string>
+    <string name="binary_path_missing">未找到</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop 守护</string>
@@ -162,11 +165,24 @@
     <string name="netcheck_history_empty">还没有记录——先跑一次检测。</string>
 
     <!-- Logs -->
+    <string name="log_source_app">App</string>
     <string name="log_source_tailscaled">tailscaled.log</string>
     <string name="log_source_runs">runs.log</string>
     <string name="log_pause">暂停</string>
     <string name="log_resume">继续</string>
     <string name="log_clear">清空</string>
+    <string name="log_archive_live">实时</string>
+    <string name="log_archive_select">归档</string>
+    <string name="log_load_earlier">加载更早</string>
+    <string name="log_clear_confirm_title">清空日志？</string>
+    <string name="log_clear_confirm_msg">将永久截断该日志文件，守护进程之后会继续写入新内容。</string>
+    <string name="log_archive_delete_confirm_title">删除归档？</string>
+    <string name="log_archive_delete_confirm_msg">将永久删除该归档文件，删除后自动切回实时日志。</string>
+    <string name="log_clear_done">日志已清空</string>
+    <string name="log_clear_no_root">清空失败：未授予 Root</string>
+    <string name="log_clear_failed">清空失败</string>
+    <string name="log_archive_too_large">归档过大，无法在 App 内打开</string>
+    <string name="log_read_failed">读取日志失败</string>
 
     <!-- Traffic -->
     <string name="traffic_rx">下载</string>

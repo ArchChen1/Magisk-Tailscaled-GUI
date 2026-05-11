@@ -206,6 +206,25 @@ fun SettingsScreen(
                 )
             }
 
+            // Binary paths (which tailscale / tailscaled / tailscaled.service actually run)
+            ElevatedCard(Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text(
+                        stringResource(R.string.binary_path_title),
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                    )
+                    Text(
+                        stringResource(R.string.binary_path_desc),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    val missing = stringResource(R.string.binary_path_missing)
+                    BinaryRow("tailscale", ui.binaries?.tailscale ?: missing)
+                    BinaryRow("tailscaled", ui.binaries?.tailscaled ?: missing)
+                    BinaryRow("tailscaled.service", ui.binaries?.service ?: missing)
+                }
+            }
+
             // Dynamic color
             ElevatedCard(Modifier.fillMaxWidth()) {
                 Row(
@@ -253,6 +272,27 @@ private fun CheckRow(label: String, checked: Boolean, onChange: (Boolean) -> Uni
     ) {
         Checkbox(checked = checked, onCheckedChange = onChange)
         Text(label, style = MaterialTheme.typography.bodyMedium)
+    }
+}
+
+@Composable
+private fun BinaryRow(name: String, path: String) {
+    Row(
+        Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            "$name:",
+            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+            modifier = Modifier.padding(end = 8.dp),
+        )
+        Text(
+            path,
+            style = MaterialTheme.typography.bodySmall,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f).horizontalScroll(rememberScrollState()),
+        )
     }
 }
 
