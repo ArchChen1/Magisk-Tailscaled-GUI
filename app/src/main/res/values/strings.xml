@@ -94,6 +94,9 @@
     <string name="save_success">Saved successfully</string>
     <string name="dynamic_color">Material You dynamic color</string>
     <string name="dynamic_color_desc">Theme follows wallpaper (Android 12+)</string>
+    <string name="binary_path_title">Binary paths</string>
+    <string name="binary_path_desc">Resolved at runtime via PATH lookup</string>
+    <string name="binary_path_missing">not found</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop daemon</string>
@@ -163,11 +166,24 @@
     <string name="netcheck_history_empty">No history yet — run a check.</string>
 
     <!-- Logs -->
+    <string name="log_source_app">App</string>
     <string name="log_source_tailscaled">tailscaled.log</string>
     <string name="log_source_runs">runs.log</string>
     <string name="log_pause">Pause</string>
     <string name="log_resume">Resume</string>
     <string name="log_clear">Clear</string>
+    <string name="log_archive_live">Live</string>
+    <string name="log_archive_select">Archive</string>
+    <string name="log_load_earlier">Load earlier</string>
+    <string name="log_clear_confirm_title">Clear log?</string>
+    <string name="log_clear_confirm_msg">This permanently truncates the log file. The daemon keeps writing afterwards.</string>
+    <string name="log_archive_delete_confirm_title">Delete archive?</string>
+    <string name="log_archive_delete_confirm_msg">This deletes the archived file. After deletion the view returns to Live.</string>
+    <string name="log_clear_done">Log cleared</string>
+    <string name="log_clear_no_root">Clear failed: root not granted</string>
+    <string name="log_clear_failed">Clear failed</string>
+    <string name="log_archive_too_large">Archive too large to display in app</string>
+    <string name="log_read_failed">Failed to read log</string>
 
     <!-- Traffic -->
     <string name="traffic_rx">Download</string>

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import top.cenmin.tailcontrol.core.data.BinaryPaths
 import top.cenmin.tailcontrol.core.data.PreferencesRepository
 import top.cenmin.tailcontrol.core.data.TailscaleRepository
 import top.cenmin.tailcontrol.core.model.DnsStatus
@@ -24,6 +25,7 @@ data class SettingsUiState(
     val dnsStatus: DnsStatus? = null,
     val sshServerEnabled: Boolean = false,
     val sshUpdating: Boolean = false,
+    val binaries: BinaryPaths? = null,
 )
 
 @HiltViewModel
@@ -58,6 +60,10 @@ class SettingsViewModel @Inject constructor(
             // DNS 状态
             runCatching {
                 _ui.value = _ui.value.copy(dnsStatus = tailRepo.dnsStatus())
+            }
+            // 二进制实际路径（兜底 PATH 之后 shell 会调用的那个）
+            runCatching {
+                _ui.value = _ui.value.copy(binaries = tailRepo.resolveBinaries())
             }
         }
     }
