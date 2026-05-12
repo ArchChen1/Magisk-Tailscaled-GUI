@@ -1,119 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="msg_file_get_success">启动 file get 成功，PPID=%1$d, PID=%2$d</string>
-    <string name="msg_file_get_success_but_pid_failed">启动 file get 成功，但未找到真实 PID (PPID%1$d)</string>
-    <string name="msg_file_get_unexpected">启动 file get 成功，但未找到真实 PID，错误：%1$s</string>
-    <string name="msg_stop_file_get">停止 file get，PID=%1$d</string>
-    <string name="home">主页</string>
-    <string name="drop">传送</string>
-    <string name="settings">设置</string>
-    <string name="get_root_failed_title">Root 权限缺失</string>
-    <string name="get_root_failed_msg">当前设备没有 Root 权限，本应用无法正常运行。</string>
-    <string name="exit">退出</string>
+
+    <!-- App -->
+    <string name="app_name">TailControl</string>
+    <string name="share_label">TailDrop</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">主页</string>
+    <string name="nav_drop">传送</string>
+    <string name="nav_settings">设置</string>
+    <string name="nav_accounts">账户</string>
+    <string name="nav_netcheck">网络检测</string>
+    <string name="nav_traffic">流量</string>
+    <string name="nav_logs">日志</string>
+
+    <!-- Status -->
     <string name="status">状态</string>
     <string name="status_online">在线</string>
     <string name="status_offline">离线</string>
     <string name="status_service_running">服务运行中</string>
     <string name="status_service_stopped">服务已停止</string>
+    <string name="status_service_starting">服务启动中</string>
     <string name="status_service_needslogin">未登录</string>
+    <string name="status_protect_offline">守护进程离线</string>
     <string name="unknown">未知</string>
+
+    <!-- Common -->
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+    <string name="done">完成</string>
+    <string name="close">关闭</string>
+    <string name="exit">退出</string>
+    <string name="loading">加载中…</string>
+    <string name="refresh">刷新</string>
+    <string name="retry">重试</string>
+    <string name="execute">执行</string>
+    <string name="save">保存</string>
+    <string name="add">添加</string>
+    <string name="remove">删除</string>
+    <string name="clear">清空</string>
+    <string name="copy">复制</string>
+    <string name="copy_open">复制并在浏览器打开</string>
+    <string name="long_press_to_copy">长按可复制 IP</string>
+    <string name="ip_copied">已复制 IP：</string>
+    <string name="url_copied">链接已复制</string>
+    <string name="never">从未</string>
+    <string name="none">无</string>
+    <string name="invalid_input">输入无效</string>
+    <string name="not_running">未运行</string>
+
+    <!-- Root -->
+    <string name="get_root_failed_title">未授予 Root</string>
+    <string name="get_root_failed_msg">当前设备未提供 Root 权限，应用无法正常运行。</string>
+
+    <!-- Home -->
+    <string name="hostname">主机名</string>
+    <string name="last_seen">上次在线</string>
+    <string name="device_list">节点列表</string>
+    <string name="device_list_autofresh">节点列表（%1$d 秒后刷新）</string>
+    <string name="start_tailscale">启动 Tailscale</string>
+    <string name="stop_tailscale">停止 Tailscale</string>
+    <string name="netcheck_report_title">网络检测</string>
+    <string name="netcheck_report_failed">网络检测失败</string>
+
+    <!-- Settings -->
+    <string name="tailscale_settings">Tailscale 设置</string>
+    <string name="user">用户</string>
+    <string name="manage">管理</string>
+    <string name="login">登录</string>
+    <string name="logout">退出登录</string>
+    <string name="login_link">登录链接</string>
+    <string name="login_success">Tailscale 登录成功！</string>
+    <string name="get_link">已获取登录链接</string>
+    <string name="get_link_failed">获取登录链接失败</string>
+    <string name="login_succes2">登录成功</string>
+    <string name="confirm_sign_out">确认退出登录？</string>
+    <string name="confirm_sign_out_text">确定要退出 Tailscale 当前账户吗？</string>
+    <string name="unable_browser">无法打开浏览器</string>
+    <string name="waiting_link">等待链接…</string>
+    <string name="subnet">接受子网路由</string>
+    <string name="accept_dns">接受管理面板的 DNS 配置</string>
+    <string name="advertise_exit_node">作为出口节点</string>
+    <string name="exit_node">出口节点</string>
+    <string name="exit_node_descripe">节点名/IP；留空则禁用</string>
+    <string name="advertise_subnets_routes">通告路由</string>
+    <string name="advertise_subnets_routes_descripe">CIDR 列表，例如 10.0.0.0/24,10.0.1.0/24</string>
+    <string name="hostname_set">主机名</string>
+    <string name="hostname_set_descripe">自定义主机名；留空则保持原值</string>
+    <string name="custom_parameters">自定义参数</string>
+    <string name="save_failed">保存失败</string>
+    <string name="save_failed_text">tailscale set 返回错误</string>
+    <string name="save_success">保存成功</string>
+    <string name="dynamic_color">动态主题色 (Material You)</string>
+    <string name="dynamic_color_desc">跟随系统壁纸（Android 12+）</string>
+    <string name="binary_path_title">二进制路径</string>
+    <string name="binary_path_desc">实际由 root shell 通过 PATH 解析得到</string>
+    <string name="binary_path_missing">未找到</string>
+
+    <!-- Drop -->
+    <string name="drop_label">Drop 守护</string>
+    <string name="drop_service_started">Drop 守护已启动</string>
+    <string name="drop_service_stopped">Drop 守护已停止</string>
+    <string name="drop_stop_due_to_tail">Tailscale 当前未运行，Drop 守护不会启动。</string>
     <string name="rename">重命名</string>
     <string name="skip">跳过</string>
     <string name="overwrite">覆盖</string>
-    <string name="status_protect_offline">守护进程离线</string>
-    <string name="close">关闭</string>
-    <string name="device_list">节点列表：</string>
-    <string name="hostname">主机名</string>
-    <string name="last_seen">上次在线</string>
-    <string name="loading">加载中……</string>
-    <string name="name">名称</string>
-    <string name="netcheck_report_failed">无法获取 Report</string>
-    <string name="netcheck_report_title">网络检查报告</string>
-    <string name="start_tailscale">启动 Tailscale</string>
-    <string name="stop_tailscale">停止 Tailscale</string>
-    <string name="path_selected">已选择路径</string>
-    <string name="select_file">选择文件</string>
-    <string name="select_path">选择路径</string>
-    <string name="current_path">当前保存路径</string>
-    <string name="conflict_behavior">冲突处理方式</string>
-    <string name="file_receiver_daemon">"接收文件守护进程 "</string>
+    <string name="path_selected">已选路径</string>
+    <string name="select_file">选择</string>
+    <string name="select_path">路径</string>
+    <string name="current_path">当前路径</string>
+    <string name="conflict_behavior">冲突处理</string>
+    <string name="file_receiver_daemon">文件接收守护</string>
     <string name="share_file">分享文件</string>
+    <string name="conflict_behavior_set_to">冲突处理已设为</string>
+    <string name="ping_placeholder">IP / 节点名</string>
     <string name="test">测试</string>
-    <string name="done">确定</string>
-    <string name="confirm">确认</string>
-    <string name="cancel">取消</string>
-    <string name="conflict_behavior_set_to">冲突处理已设置为</string>
-    <string name="ping_placeholder">IP/节点名称</string>
-    <string name="fix_duplicate_file">"修复重复接收文件 "</string>
-    <string name="execute">执行</string>
-    <string name="oops">啊嘞（⊙o⊙）？</string>
-    <string name="no_tail_process">没有正在运行的 Tailscale 进程</string>
-    <string name="only_one_process">"只有一个 tailscale 进程，可能没异常，确定要杀掉所有 tailscale 吗？   "</string>
-    <string name="multi_process">"检测到多个正在运行的 Tailscale 进程，确定要杀掉所有 tailscale 吗？ "</string>
-    <string name="kill_process">强制杀掉所有 Tailscale</string>
-    <string name="tip">提示：更改路径/冲突处理方式后请手动开关使配置生效\ntailscale默认都将接收到的文件丢在tmp里，本功能只是保证将文件移动到指定文件夹\n修复重复接受文件用于意外启动多个保护程序时</string>
+    <string name="fix_duplicate_file">修复重复进程</string>
+    <string name="oops">提示</string>
+    <string name="no_tail_process">当前没有 Tailscale 进程在运行。</string>
+    <string name="only_one_process">只检测到极少 Tailscale 进程，可能正常。仍要全部杀掉？</string>
+    <string name="multi_process">检测到多个 Tailscale 进程，要全部杀掉吗？</string>
+    <string name="kill_process">杀掉所有 Tailscale 进程</string>
+    <string name="tip">提示：修改保存路径或冲突规则后，请关闭再打开开关使其生效。</string>
     <string name="daemon_output">守护进程输出</string>
-    <string name="user">用户</string>
-    <string name="tailscale_settings">Tailscale 设置</string>
-    <string name="manage">管理</string>
-    <string name="logout">登出</string>
-    <string name="login">登录</string>
-    <string name="unable_browser">无法打开浏览器</string>
-    <string name="subnet">子网路由</string>
-    <string name="accept_dns">接受管理面板的DNS配置</string>
-    <string name="advertise_exit_node">建议本机作为出口节点</string>
-    <string name="exit_node">出口节点</string>
-    <string name="advertise_subnets_routes">建议公开网段</string>
-    <string name="hostname_set">设备名称</string>
-    <string name="custom_parameters">自定义参数</string>
-    <string name="exit_node_descripe">节点名称/IP地址，留空禁用</string>
-    <string name="advertise_subnets_routes_descripe">填写CIDR网段，多个网段用\",\"隔开，留空禁用 (e.g. 10.0.0.0/24,10.0.1.0/24)</string>
-    <string name="hostname_set_descripe">自定义设备名称，留空使用上一次的名称</string>
-    <string name="waiting_link">等待生成链接……</string>
-    <string name="login_link">登录链接</string>
-    <string name="get_link">获取链接成功</string>
-    <string name="get_link_failed">生成登录链接失败</string>
-    <string name="login_success">Tailscale 登录成功！</string>
-    <string name="save_failed">保存失败</string>
-    <string name="save_failed_text">执行 tailscale set 返回错误：</string>
-    <string name="save_success">保存成功</string>
-    <string name="link_copied">"已复制登录链接 "</string>
-    <string name="copy_open">复制并打开浏览器</string>
-    <string name="login_succes2">登录成功</string>
-    <string name="confirm_sign_out">确认注销？</string>
-    <string name="confirm_sign_out_text">确定要注销 Tailscale 吗？</string>
-    <string name="Daemon_running">保护运行中</string>
-    <string name="drop_stop_due_to_tail">当前状态不是运行中，不启动 Drop保护服务</string>
-    <string name="offline_now">已离线</string>
-    <string name="drop_label">Drop守护</string>
-    <string name="waiting">等待中……</string>
-    <string name="transfer_status">传输状态：%1s</string>
+    <string name="msg_file_get_success">file get 已启动，PPID=%1$d，PID=%2$d</string>
+    <string name="msg_file_get_success_but_pid_failed">file get 已启动，但找不到 PPID=%1$d 对应的真实 PID。</string>
+    <string name="msg_file_get_unexpected">file get 异常：%1$s</string>
+    <string name="msg_stop_file_get">file get 已停止，PID=%1$d</string>
+    <string name="msg_file_get_failed_no_ppid">启动 file get 失败：未拿到 PPID</string>
+    <string name="Daemon_running">守护进程运行中</string>
+    <string name="offline_now">离线</string>
+
+    <!-- File transfer -->
+    <string name="transfer_status">传输：%1$s</string>
     <string name="force_cancel_transfer">强制取消</string>
-    <string name="force_cancel_warn">" 当前文件正在传输，取消后将会重启 Tailscale 服务。\n如果下次传送出现异常请尝试重启接收设备的tailscale"</string>
-    <string name="transfer_canceled">"传输已取消 "</string>
-    <string name="drop_canceling">正在取消</string>
-    <string name="cancel_please_wait">取消中，请稍后…</string>
+    <string name="force_cancel_warn">现在取消会在文件仍在传输时重启 Tailscale 服务。如果下次传输失败，请在接收端重启 Tailscale。</string>
+    <string name="transfer_canceled">已取消传输</string>
+    <string name="drop_canceling">取消中</string>
+    <string name="cancel_please_wait">正在取消，请稍候…</string>
     <string name="operation_complete">操作完成</string>
-    <string name="tailreboot">传输已取消，Tailscale 服务已重启。</string>
-    <string name="device_list_autofresh">节点列表:（%1$d s 后自动刷新）</string>
-    <string name="force_cancel_title">"确认取消传输？ "</string>
-    <string name="refresh">刷新</string>
+    <string name="tailreboot">已取消传输，Tailscale 服务已重启。</string>
+    <string name="force_cancel_title">确认取消传输？</string>
     <string name="send">发送</string>
-    <string name="tailscale_not_running">检测到 Tailscale 服务未运行，是否启动？</string>
-    <string name="tailnet_unreachable">"无法连接到 Tailnet 网络，请检查网络连接 "</string>
-    <string name="transfer_complete">"传输完成 "</string>
-    <string name="transferring">"传输中… "</string>
+    <string name="tailscale_not_running">未检测到 Tailscale 服务，是否立即启动？</string>
+    <string name="tailnet_unreachable">无法访问 Tailnet——请检查网络连接。</string>
+    <string name="transfer_complete">传输完成</string>
+    <string name="transfer_failed">传输失败：%1$s</string>
+    <string name="transferring">传输中…</string>
     <string name="file_transfer">文件传输</string>
-    <string name="status_service_starting">服务启动中</string>
-    <string name="drop_service_started">Drop守护已启动</string>
-    <string name="drop_service_stopped">Drop守护已停止</string>
-    <string name="add_new_acc">添加新账户</string>
-    <string name="url_copied">已复制登录链接</string>
+    <string name="waiting">等待中…</string>
+
+    <!-- Accounts -->
+    <string name="add_new_acc">添加另一个账户</string>
     <string name="tailscale_accounts">Tailscale 账户</string>
-    <string name="admin_console">打开控制台</string>
-    <string name="current">当前账户</string>
-    <string name="switching">正在切换…</string>
+    <string name="admin_console">打开管理后台</string>
+    <string name="current">当前</string>
+    <string name="switching">切换中…</string>
     <string name="switched">账户已切换</string>
-    <string name="long_press_to_copy">长按复制 IP 地址</string>
-    <string name="ip_copied">IP 地址已复制:</string>
+
+    <!-- Netcheck -->
+    <string name="netcheck_run">运行 Netcheck</string>
+    <string name="netcheck_history">历史</string>
+    <string name="netcheck_clear_history">清空历史</string>
+    <string name="netcheck_history_empty">还没有记录——先跑一次检测。</string>
+
+    <!-- Logs -->
+    <string name="log_source_app">App</string>
+    <string name="log_source_tailscaled">tailscaled.log</string>
+    <string name="log_source_runs">runs.log</string>
+    <string name="log_pause">暂停</string>
+    <string name="log_resume">继续</string>
+    <string name="log_clear">清空</string>
+    <string name="log_archive_live">实时</string>
+    <string name="log_archive_select">归档</string>
+    <string name="log_load_earlier">加载更早</string>
+    <string name="log_clear_confirm_title">清空日志？</string>
+    <string name="log_clear_confirm_msg">将永久截断该日志文件，守护进程之后会继续写入新内容。</string>
+    <string name="log_archive_delete_confirm_title">删除归档？</string>
+    <string name="log_archive_delete_confirm_msg">将永久删除该归档文件，删除后自动切回实时日志。</string>
+    <string name="log_clear_done">日志已清空</string>
+    <string name="log_clear_no_root">清空失败：未授予 Root</string>
+    <string name="log_clear_failed">清空失败</string>
+    <string name="log_archive_too_large">归档过大，无法在 App 内打开</string>
+    <string name="log_read_failed">读取日志失败</string>
+
+    <!-- Traffic -->
+    <string name="traffic_rx">下载</string>
+    <string name="traffic_tx">上传</string>
+    <string name="traffic_rx_total">总下载：%1$s</string>
+    <string name="traffic_tx_total">总上传：%1$s</string>
+    <string name="traffic_no_data">还没看到 tailscale0 接口——启动 Tailscale 后才会有流量。</string>
+
+    <!-- Peer detail -->
+    <string name="peer_detail">节点详情</string>
+    <string name="peer_os">操作系统</string>
+    <string name="peer_relay">中继</string>
+    <string name="peer_routes">主路由</string>
+    <string name="peer_allowed_ips">允许的 IP</string>
+    <string name="peer_exit_node_option">可作为出口节点</string>
+    <string name="peer_is_exit_node">当前使用此出口节点</string>
+    <string name="peer_addresses">地址</string>
+    <string name="peer_active">活跃中</string>
+    <string name="peer_start_ping">开始 Ping</string>
+    <string name="peer_stop_ping">停止</string>
+    <string name="peer_ping_avg">平均</string>
+    <string name="peer_ping_p95">p95</string>
+    <string name="peer_ping_count">样本数</string>
+
+    <!-- Exit node picker -->
+    <string name="exit_node_picker_title">选择出口节点</string>
+    <string name="exit_node_none">不使用出口节点</string>
+
+    <!-- Subnet editor -->
+    <string name="subnet_editor_title">通告路由</string>
+    <string name="subnet_add">添加 CIDR</string>
+    <string name="subnet_invalid">CIDR 格式无效</string>
+
+    <string name="back">返回</string>
+
+    <!-- New (post-launch) -->
+    <string name="peer_owner">归属</string>
+    <string name="peer_user">用户</string>
+    <string name="peer_machine">机器</string>
+    <string name="peer_ssh_command">Tailscale SSH</string>
+    <string name="peer_ssh_hint">在装了 tailscale CLI 的设备上跑这条命令即可 SSH 进该节点。</string>
+
+    <string name="exit_node_suggest_use">使用建议：%1$s</string>
+
+    <string name="drop_unavailable_title">Drop 不可用</string>
+    <string name="drop_unavailable_msg">当前 tailscale (1.90+) 已删除 file 子命令，文件接收守护和文件分享流程都依赖 file get/cp，需要旧版 tailscale 才能用。</string>
+
+    <string name="advertise_ssh">把本机声明为 Tailscale SSH 服务端</string>
+    <string name="advertise_ssh_desc">让 tailnet 内的其他节点 ssh 到本机——使用 tailscaled 内置的 SSH，不需要系统 sshd。</string>
+
+    <string name="dns_tailscale_dns">Tailscale DNS</string>
+    <string name="dns_enabled">已启用</string>
+    <string name="dns_disabled">已禁用</string>
+
 </resources>
