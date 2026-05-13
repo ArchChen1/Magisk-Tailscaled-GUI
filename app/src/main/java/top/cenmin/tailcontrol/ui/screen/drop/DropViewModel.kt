@@ -107,6 +107,7 @@ class DropViewModel @Inject constructor(
     }
 
     fun setPingAddress(addr: String) {
+        _ui.value = _ui.value.copy(pingAddress = addr)
         viewModelScope.launch { prefs.setPingAddress(addr) }
     }
 

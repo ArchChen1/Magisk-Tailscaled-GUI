@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
@@ -177,22 +178,24 @@ fun SettingsScreen(
             // DNS status (read-only summary)
             ui.dnsStatus?.let { dns ->
                 ElevatedCard(Modifier.fillMaxWidth()) {
-                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        Text("DNS", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
-                        Text(
-                            "${stringResource(R.string.dns_tailscale_dns)}: " +
-                                if (dns.tailscaleDnsEnabled) stringResource(R.string.dns_enabled) else stringResource(R.string.dns_disabled),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                        Text(
-                            "MagicDNS: " +
-                                if (dns.magicDnsEnabled) stringResource(R.string.dns_enabled) else stringResource(R.string.dns_disabled),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                        if (!dns.magicDnsSuffix.isNullOrBlank())
-                            Text("Suffix: ${dns.magicDnsSuffix}", style = MaterialTheme.typography.bodySmall)
-                        if (!dns.deviceDnsName.isNullOrBlank())
-                            Text("This device: ${dns.deviceDnsName}", style = MaterialTheme.typography.bodySmall)
+                    SelectionContainer {
+                        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            Text("DNS", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold))
+                            Text(
+                                "${stringResource(R.string.dns_tailscale_dns)}: " +
+                                    if (dns.tailscaleDnsEnabled) stringResource(R.string.dns_enabled) else stringResource(R.string.dns_disabled),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                            Text(
+                                "MagicDNS: " +
+                                    if (dns.magicDnsEnabled) stringResource(R.string.dns_enabled) else stringResource(R.string.dns_disabled),
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                            if (!dns.magicDnsSuffix.isNullOrBlank())
+                                Text("Suffix: ${dns.magicDnsSuffix}", style = MaterialTheme.typography.bodySmall)
+                            if (!dns.deviceDnsName.isNullOrBlank())
+                                Text("This device: ${dns.deviceDnsName}", style = MaterialTheme.typography.bodySmall)
+                        }
                     }
                 }
             }
@@ -208,20 +211,22 @@ fun SettingsScreen(
 
             // Binary paths (which tailscale / tailscaled / tailscaled.service actually run)
             ElevatedCard(Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text(
-                        stringResource(R.string.binary_path_title),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-                    )
-                    Text(
-                        stringResource(R.string.binary_path_desc),
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    val missing = stringResource(R.string.binary_path_missing)
-                    BinaryRow("tailscale", ui.binaries?.tailscale ?: missing)
-                    BinaryRow("tailscaled", ui.binaries?.tailscaled ?: missing)
-                    BinaryRow("tailscaled.service", ui.binaries?.service ?: missing)
+                SelectionContainer {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(
+                            stringResource(R.string.binary_path_title),
+                            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                        )
+                        Text(
+                            stringResource(R.string.binary_path_desc),
+                            style = MaterialTheme.typography.bodySmall,
+                        )
+                        Spacer(Modifier.height(4.dp))
+                        val missing = stringResource(R.string.binary_path_missing)
+                        BinaryRow("tailscale", ui.binaries?.tailscale ?: missing)
+                        BinaryRow("tailscaled", ui.binaries?.tailscaled ?: missing)
+                        BinaryRow("tailscaled.service", ui.binaries?.service ?: missing)
+                    }
                 }
             }
 
