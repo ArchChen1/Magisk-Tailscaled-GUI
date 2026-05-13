@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
-android {
+android { 
     namespace = "top.cenmin.tailcontrol"
     compileSdk = 36
     buildToolsVersion = "36.0.0"
@@ -17,8 +17,8 @@ android {
         applicationId = "top.cenmin.tailcontrol"
         minSdk = 29
         targetSdk = 36
-        versionCode = 6
-        versionName = "2.0.0"
+        versionCode = 7
+        versionName = "2.0.1"
         vectorDrawables { useSupportLibrary = true }
     }
 
