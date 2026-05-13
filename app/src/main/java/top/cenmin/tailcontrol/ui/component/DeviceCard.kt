@@ -22,8 +22,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import top.cenmin.tailcontrol.R
 import top.cenmin.tailcontrol.core.model.TailscaleDevice
+import top.cenmin.tailcontrol.ui.screen.peer.toLocalTime
 import top.cenmin.tailcontrol.ui.theme.LocalStatusColors
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
+
+fun String.toLocalTime(): String {
+    return try {
+        LocalDateTime.parse(trim(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            .atZone(ZoneId.of("UTC"))
+            .withZoneSameInstant(ZoneId.systemDefault())
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+    } catch (e: Exception) {
+        "$this (UTC)"
+    }
+}
 @Composable
 fun DeviceCard(
     device: TailscaleDevice,
@@ -54,7 +69,7 @@ fun DeviceCard(
                 }
                 if (!device.online && !device.lastSeen.isNullOrBlank()) {
                     Text(
-                        "${stringResource(R.string.last_seen)}: ${device.lastSeen}",
+                        "${stringResource(R.string.last_seen)}: ${device.lastSeen.toLocalTime()}",
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }

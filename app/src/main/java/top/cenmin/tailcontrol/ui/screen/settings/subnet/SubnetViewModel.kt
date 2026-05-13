@@ -73,7 +73,9 @@ class SubnetViewModel @Inject constructor(
             }
             prefs.saveTailscaleSettings(updated)
             _ui.value = _ui.value.copy(saving = false)
-            onDone()
+            kotlinx.coroutines.withContext(Dispatchers.Main) {
+                onDone()
+            }
         }
     }
 

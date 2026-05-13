@@ -66,7 +66,9 @@ class ExitNodeViewModel @Inject constructor(
             }
             prefs.saveTailscaleSettings(updated)
             _ui.value = _ui.value.copy(saving = false, saveDone = true)
-            onDone()
+            kotlinx.coroutines.withContext(Dispatchers.Main) {
+                onDone()
+            }
         }
     }
 
