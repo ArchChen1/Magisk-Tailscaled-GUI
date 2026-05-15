@@ -38,6 +38,8 @@ private object Keys {
     val DROP_PID = intPreferencesKey("drop_pid")
 
     val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
+
+    val LAST_UPDATE_CHECK_DATE = stringPreferencesKey("last_update_check_date")
 }
 
 private val Context.tailDataStore by preferencesDataStore(
@@ -150,5 +152,33 @@ class PreferencesRepository @Inject constructor(
 
     suspend fun clearDropPid() {
         store.edit { it.remove(Keys.DROP_PID) }
+    }
+
+    // 更新检查
+    suspend fun getLastUpdateCheckDate(): String? {
+        return store.data.map { preferences ->
+            preferences[Keys.LAST_UPDATE_CHECK_DATE]
+        }.first()
+    }
+
+    suspend fun setLastUpdateCheckDate(date: String) {
+        store.edit { preferences ->
+            preferences[Keys.LAST_UPDATE_CHECK_DATE] = date
+        }
+    }
+
+    suspend fun shouldCheckUpdateToday(): Boolean {
+        val today = getTodayDateString()
+        val lastCheckDate = getLastUpdateCheckDate()
+        return lastCheckDate != today
+    }
+
+    suspend fun markUpdateCheckedToday() {
+        setLastUpdateCheckDate(getTodayDateString())
+    }
+
+    private fun getTodayDateString(): String {
+        return java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
+            .format(java.util.Date())
     }
 }

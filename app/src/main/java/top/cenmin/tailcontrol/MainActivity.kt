@@ -8,14 +8,18 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import top.cenmin.tailcontrol.core.data.PreferencesRepository
+import top.cenmin.tailcontrol.ui.component.UpdateDialog
 import top.cenmin.tailcontrol.ui.nav.TailNavGraph
+import top.cenmin.tailcontrol.ui.screen.settings.UpdateViewModel
 import top.cenmin.tailcontrol.ui.theme.TailControlTheme
 
 @AndroidEntryPoint
@@ -47,8 +51,42 @@ class MainActivity : ComponentActivity() {
         setContent {
             val dynamic by prefs.dynamicColorEnabled.collectAsState(initial = true)
             TailControlTheme(dynamicColor = dynamic) {
-                TailNavGraph()
+                MainActivityContent()
             }
         }
+    }
+
+    @Composable
+    fun MainActivityContent() {
+        val updateViewModel: UpdateViewModel = viewModel()
+        val silentUpdate by updateViewModel.silentUpdateResult.collectAsState()
+        var showDialog by remember { mutableStateOf(false) }
+
+        // 启动时静默检查
+        LaunchedEffect(Unit) {
+            lifecycleScope.launch {
+                updateViewModel.silentCheckUpdateIfNeeded()
+            }
+        }
+
+        // 发现更新时显示对话框
+        LaunchedEffect(silentUpdate) {
+            if (silentUpdate != null) {
+                showDialog = true
+            }
+        }
+        if (showDialog && silentUpdate != null) {
+            UpdateDialog(
+                result = silentUpdate,
+                onDismiss = {
+                    updateViewModel.consumeSilentUpdate()
+                },
+                onOpenDownloadPage = {
+                    updateViewModel.openDownloadPage()
+                }
+            )
+        }
+
+        TailNavGraph()
     }
 }

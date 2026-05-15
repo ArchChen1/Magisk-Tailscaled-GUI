@@ -97,6 +97,17 @@
     <string name="binary_path_title">Binary paths</string>
     <string name="binary_path_desc">Resolved at runtime via PATH lookup</string>
     <string name="binary_path_missing">not found</string>
+    <string name="about">About</string>
+    <string name="check_updates">Check updates</string>
+    <string name="checking_update">Checking…</string>
+    <string name="current_version">Version</string>
+    <string name="update_found_title">New version v%s found</string>
+    <string name="update_current_version">Current version: v%s</string>
+    <string name="update_release_notes">Release notes:</string>
+    <string name="update_now">Update Now</string>
+    <string name="update_later">Later</string>
+    <string name="update_already_latest">Already the latest version</string>
+    <string name="update_check_failed">Check update failed</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop daemon</string>
