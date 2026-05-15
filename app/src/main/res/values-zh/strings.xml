@@ -96,6 +96,17 @@
     <string name="binary_path_title">二进制路径</string>
     <string name="binary_path_desc">实际由 root shell 通过 PATH 解析得到</string>
     <string name="binary_path_missing">未找到</string>
+    <string name="about">关于</string>
+    <string name="check_update">检查更新</string>
+    <string name="checking_update">正在检查更新…</string>
+    <string name="current_version">版本</string>
+    <string name="update_found_title">发现新版本 v%s</string>
+    <string name="update_current_version">当前版本：v%s</string>
+    <string name="update_release_notes">更新内容：</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_later">以后再说</string>
+    <string name="update_already_latest">已是最新版本</string>
+    <string name="update_check_failed">检查更新失败</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop 守护</string>

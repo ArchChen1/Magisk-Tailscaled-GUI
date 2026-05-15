@@ -10,15 +10,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -33,16 +36,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import top.cenmin.tailcontrol.BuildConfig
 import top.cenmin.tailcontrol.R
+import androidx.compose.foundation.layout.width
+import top.cenmin.tailcontrol.ui.component.UpdateDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,8 +60,35 @@ fun SettingsScreen(
     onOpenSubnet: () -> Unit,
     onOpenLogs: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
+    updateViewModel: UpdateViewModel = hiltViewModel(),
 ) {
     val ui by viewModel.ui.collectAsStateWithLifecycle()
+    val updateState by updateViewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    // Toast 提示
+    LaunchedEffect(updateState) {
+        when (updateState) {
+            is UpdateViewModel.UpdateUiState.NoUpdate -> {
+                android.widget.Toast.makeText(
+                    context,
+                    R.string.update_already_latest,
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
+                updateViewModel.resetState()
+            }
+            is UpdateViewModel.UpdateUiState.Error -> {
+                val errorMsg = (updateState as UpdateViewModel.UpdateUiState.Error).message
+                android.widget.Toast.makeText(
+                    context,
+                    errorMsg,
+                    android.widget.Toast.LENGTH_SHORT
+                ).show()
+                updateViewModel.resetState()
+            }
+            else -> {}
+        }
+    }
 
     Scaffold(
         topBar = { TopAppBar(title = { Text(stringResource(R.string.tailscale_settings)) }) },
@@ -244,6 +279,59 @@ fun SettingsScreen(
                 }
             }
 
+            // About card with update check
+            ElevatedCard(Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(
+                        stringResource(R.string.about),
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
+                    )
+
+                    // 版本信息和检查更新按钮
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column {
+                            Text(
+                                "${stringResource(R.string.current_version)}: ${BuildConfig.VERSION_NAME}",
+                                style = MaterialTheme.typography.bodyMedium,
+                            )
+                        }
+
+                        // 检查更新按钮区域（根据状态显示不同内容）
+                        when (updateState) {
+                            is UpdateViewModel.UpdateUiState.Checking -> {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(20.dp),
+                                        strokeWidth = 2.dp,
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(
+                                        stringResource(R.string.checking_update),
+                                        style = MaterialTheme.typography.bodySmall,
+                                    )
+                                }
+                            }
+                            else -> {
+                                TextButton(
+                                    onClick = { updateViewModel.checkUpdate(showNoUpdateTip = true) }
+                                ) {
+                                    Icon(
+                                        Icons.Default.SystemUpdate,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp),
+                                    )
+                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Text(stringResource(R.string.check_update))
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             Spacer(Modifier.height(80.dp))
         }
     }
@@ -267,6 +355,14 @@ fun SettingsScreen(
             },
         )
     }
+
+    UpdateDialog(
+        result = if (updateState is UpdateViewModel.UpdateUiState.HasUpdate)
+            (updateState as UpdateViewModel.UpdateUiState.HasUpdate).result
+        else null,
+        onDismiss = { updateViewModel.resetState() },
+        onOpenDownloadPage = { updateViewModel.openDownloadPage() }
+    )
 }
 
 @Composable
