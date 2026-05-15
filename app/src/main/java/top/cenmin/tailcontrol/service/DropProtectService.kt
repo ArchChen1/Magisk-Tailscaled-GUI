@@ -1,5 +1,6 @@
 package top.cenmin.tailcontrol.service
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -72,8 +73,16 @@ class DropProtectService : Service() {
         return START_STICKY
     }
 
+    @SuppressLint("SdCardPath")
     private fun startProtect(pathArg: String?, behavior: ConflictBehavior) {
         val path = pathArg ?: "/sdcard/Download/TailDrop/"
+        // 检查目录是否存在
+        if (!ensureDirectoryExists(path)) {
+            dropRepo.appendLog(getString(R.string.drop_start_failed_dir_invalid, path))
+            updateNotification(getString(R.string.drop_failed_dir_invalid))
+            stopProtect()
+            return
+        }
         loopJob?.cancel()
 
         startForeground(NOTIFICATION_ID, buildNotification(getString(R.string.loading)))
@@ -177,5 +186,35 @@ class DropProtectService : Service() {
     private fun updateNotification(text: String) {
         val nm = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         nm.notify(NOTIFICATION_ID, buildNotification(text))
+    }
+
+    private fun ensureDirectoryExists(path: String): Boolean {
+        return try {
+            val dir = java.io.File(path)
+            if (!dir.exists()) {
+                val created = dir.mkdirs()
+                if (created) {
+                    dropRepo.appendLog(getString(R.string.dir_created, path))
+                    Timber.d("Directory created: $path")
+                    runBlocking {
+                        delay(500)
+                    }
+                } else {
+                    dropRepo.appendLog(getString(R.string.dir_create_failed, path))
+                    Timber.e("Failed to create directory: $path")
+                }
+                created
+            } else {
+                true
+            }
+        } catch (e: SecurityException) {
+            dropRepo.appendLog(getString(R.string.dir_create_permission_denied, path, e.message.orEmpty()))
+            Timber.e(e, "Permission denied to create directory: $path")
+            false
+        } catch (e: Exception) {
+            dropRepo.appendLog(getString(R.string.dir_create_error, path, e.message.orEmpty()))
+            Timber.e(e, "Error creating directory: $path")
+            false
+        }
     }
 }

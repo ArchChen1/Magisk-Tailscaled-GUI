@@ -131,6 +131,12 @@
     <string name="msg_file_get_failed_no_ppid">Failed to start file get: no PPID returned</string>
     <string name="Daemon_running">Daemon running</string>
     <string name="offline_now">Offline</string>
+    <string name="dir_created">Directory created: %s</string>
+    <string name="dir_create_failed">Failed to create directory: %s</string>
+    <string name="dir_create_permission_denied">Permission denied, cannot create directory %s: %s</string>
+    <string name="dir_create_error">Error creating directory %s: %s</string>
+    <string name="drop_start_failed_dir_invalid">Start failed, invalid directory: %s</string>
+    <string name="drop_failed_dir_invalid">Drop protection start failed: invalid directory</string>
 
     <!-- File transfer -->
     <string name="transfer_status">Transfer: %1$s</string>

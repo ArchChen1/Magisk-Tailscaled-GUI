@@ -17,8 +17,8 @@ android {
         applicationId = "top.cenmin.tailcontrol"
         minSdk = 29
         targetSdk = 36
-        versionCode = 7
-        versionName = "2.0.1"
+        versionCode = 8
+        versionName = "2.0.2"
         vectorDrawables { useSupportLibrary = true }
     }
 

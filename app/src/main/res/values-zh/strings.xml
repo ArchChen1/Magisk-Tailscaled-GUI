@@ -130,6 +130,12 @@
     <string name="msg_file_get_failed_no_ppid">启动 file get 失败：未拿到 PPID</string>
     <string name="Daemon_running">守护进程运行中</string>
     <string name="offline_now">离线</string>
+    <string name="dir_created">目录已创建: %s</string>
+    <string name="dir_create_failed">创建目录失败: %s</string>
+    <string name="dir_create_permission_denied">权限不足，无法创建目录 %s: %s</string>
+    <string name="dir_create_error">创建目录 %s 时出错: %s</string>
+    <string name="drop_start_failed_dir_invalid">启动失败，目录无效: %s</string>
+    <string name="drop_failed_dir_invalid">Drop保护启动失败：目录无效</string>
 
     <!-- File transfer -->
     <string name="transfer_status">传输：%1$s</string>

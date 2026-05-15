@@ -8,7 +8,8 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"
+        tools:ignore="ExactAlarmPolicy" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -21,7 +22,8 @@
         android:label="@string/app_name"
         android:enableOnBackInvokedCallback="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TailControl.Splash">
+        android:theme="@style/Theme.TailControl.Splash"
+        tools:targetApi="33">
 
         <activity
             android:name=".MainActivity"
@@ -44,7 +46,7 @@
             android:exported="true"
             android:label="@string/share_label"
             android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.TailControl"
             android:taskAffinity="">
             <intent-filter>
