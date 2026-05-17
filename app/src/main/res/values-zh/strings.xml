@@ -107,6 +107,14 @@
     <string name="update_later">以后再说</string>
     <string name="update_already_latest">已是最新版本</string>
     <string name="update_check_failed">检查更新失败</string>
+    <string name="experimental_title">实验性功能</string>
+    <string name="experimental_subtitle">Beta 功能，可能不稳定</string>
+    <string name="experimental_warning">以下功能处于实验阶段，随时可能变更或移除。</string>
+    <string name="experimental_altrepo_title">AltRepo 版本体验优化</string>
+    <string name="experimental_altrepo_desc">启用来自 AltRepo 构建的优化。</string>
+    <string name="experimental_health_banner_title">禁用健康检查横幅</string>
+    <string name="experimental_health_banner_desc">隐藏 Tailscale 健康状态警告横幅</string>
+    <string name="health_check">⚠️ 健康检查</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop 守护</string>
@@ -151,7 +159,7 @@
     <!-- File transfer -->
     <string name="transfer_status">传输：%1$s</string>
     <string name="force_cancel_transfer">强制取消</string>
-    <string name="force_cancel_warn">现在取消会在文件仍在传输时重启 Tailscale 服务。如果下次传输失败，请在接收端重启 Tailscale。</string>
+    <string name="force_cancel_warn">强制取消将会重启 Tailscale 服务。如果下次传输失败，请在接收端重启 Tailscale。</string>
     <string name="transfer_canceled">已取消传输</string>
     <string name="drop_canceling">取消中</string>
     <string name="cancel_please_wait">正在取消，请稍候…</string>
@@ -166,9 +174,14 @@
     <string name="transferring">传输中…</string>
     <string name="file_transfer">文件传输</string>
     <string name="waiting">等待中…</string>
+    <string name="experimental_route_sync_btn">同步路由</string>
+    <string name="experimental_route_restore_btn">还原备份</string>
+    <string name="experimental_route_sync_hint">从 tailscale status 读取当前 primary routes，写入 tailscaled.tun.up/down 后重启 TUN 接口。</string>
+    <string name="experimental_route_sync_success_title">路由同步成功</string>
+    <string name="experimental_route_sync_failed_title">路由同步失败</string>
 
     <!-- Accounts -->
-    <string name="add_new_acc">添加另一个账户</string>
+    <string name="add_new_acc">添加新账户</string>
     <string name="tailscale_accounts">Tailscale 账户</string>
     <string name="admin_console">打开管理后台</string>
     <string name="current">当前</string>

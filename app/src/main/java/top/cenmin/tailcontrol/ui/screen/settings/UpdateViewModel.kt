@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import top.cenmin.tailcontrol.core.data.PreferencesRepository  // 添加依赖
-import top.cenmin.tailcontrol.core.network.UpdateChecker
+import top.cenmin.tailcontrol.core.manager.UpdateChecker
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject

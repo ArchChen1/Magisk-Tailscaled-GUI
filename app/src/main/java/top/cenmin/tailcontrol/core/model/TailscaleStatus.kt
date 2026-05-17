@@ -6,4 +6,5 @@ data class TailscaleStatus(
     val peers: List<TailscaleDevice> = emptyList(),
     val users: Map<Long, UserJson> = emptyMap(),
     val rawJson: String = "",
+    val healthCheck: List<String> = emptyList(),
 )

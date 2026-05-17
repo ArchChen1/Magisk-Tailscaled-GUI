@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import top.cenmin.tailcontrol.R
-import top.cenmin.tailcontrol.core.network.UpdateChecker
+import top.cenmin.tailcontrol.core.manager.UpdateChecker
 
 @Composable
 fun UpdateDialog(

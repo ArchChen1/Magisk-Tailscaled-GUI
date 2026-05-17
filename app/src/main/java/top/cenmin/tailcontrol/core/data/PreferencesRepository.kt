@@ -1,5 +1,6 @@
 package top.cenmin.tailcontrol.core.data
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -38,6 +39,8 @@ private object Keys {
     val DROP_PID = intPreferencesKey("drop_pid")
 
     val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
+    val ALT_REPO_OPTIMIZATION = booleanPreferencesKey("alt_repo_optimization")
+    val HEALTH_BANNER_DISABLED = booleanPreferencesKey("health_banner_disabled")
 
     val LAST_UPDATE_CHECK_DATE = stringPreferencesKey("last_update_check_date")
 }
@@ -88,6 +91,7 @@ class PreferencesRepository @Inject constructor(
         )
     }
 
+    @SuppressLint("SdCardPath")
     val dropConfig: Flow<DropConfig> = store.data.map { p ->
         DropConfig(
             enabled = p[Keys.DROP_ENABLED] ?: false,
@@ -100,6 +104,9 @@ class PreferencesRepository @Inject constructor(
 
     val dynamicColorEnabled: Flow<Boolean> = store.data.map { it[Keys.DYNAMIC_COLOR] ?: true }
 
+    val altRepoOptimizationEnabled: Flow<Boolean> = store.data.map { it[Keys.ALT_REPO_OPTIMIZATION] ?: false }
+
+    val healthBannerDisabled: Flow<Boolean> = store.data.map { it[Keys.HEALTH_BANNER_DISABLED] ?: false }
     suspend fun saveTailscaleSettings(settings: TailscaleSettings) {
         store.edit { p ->
             p[Keys.ACCEPT_ROUTES] = settings.acceptRoutes
@@ -130,6 +137,14 @@ class PreferencesRepository @Inject constructor(
 
     suspend fun setDynamicColorEnabled(enabled: Boolean) {
         store.edit { it[Keys.DYNAMIC_COLOR] = enabled }
+    }
+
+    suspend fun setAltRepoOptimizationEnabled(enabled: Boolean) {
+        store.edit { it[Keys.ALT_REPO_OPTIMIZATION] = enabled }
+    }
+    // 添加设置 Health 横幅禁用开关
+    suspend fun setHealthBannerDisabled(disabled: Boolean) {
+        store.edit { it[Keys.HEALTH_BANNER_DISABLED] = disabled }
     }
 
     // Drop daemon 内部状态——给 DropProtectService 用的
@@ -165,20 +180,5 @@ class PreferencesRepository @Inject constructor(
         store.edit { preferences ->
             preferences[Keys.LAST_UPDATE_CHECK_DATE] = date
         }
-    }
-
-    suspend fun shouldCheckUpdateToday(): Boolean {
-        val today = getTodayDateString()
-        val lastCheckDate = getLastUpdateCheckDate()
-        return lastCheckDate != today
-    }
-
-    suspend fun markUpdateCheckedToday() {
-        setLastUpdateCheckDate(getTodayDateString())
-    }
-
-    private fun getTodayDateString(): String {
-        return java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
-            .format(java.util.Date())
     }
 }

@@ -21,6 +21,7 @@ import top.cenmin.tailcontrol.ui.screen.netcheck.NetcheckScreen
 import top.cenmin.tailcontrol.ui.screen.peer.PeerDetailScreen
 import top.cenmin.tailcontrol.ui.screen.settings.SettingsScreen
 import top.cenmin.tailcontrol.ui.screen.settings.exit.ExitNodePickerScreen
+import top.cenmin.tailcontrol.ui.screen.settings.experimental.ExperimentalScreen
 import top.cenmin.tailcontrol.ui.screen.settings.subnet.SubnetEditorScreen
 import top.cenmin.tailcontrol.ui.screen.traffic.TrafficScreen
 
@@ -62,6 +63,7 @@ fun TailNavGraph(navController: NavHostController = rememberNavController()) {
                     onOpenAccounts = { navController.navigate(Destinations.Accounts) },
                     onOpenExitNode = { navController.navigate(Destinations.ExitNodePicker) },
                     onOpenSubnet = { navController.navigate(Destinations.SubnetEditor) },
+                    onOpenExperimental = { navController.navigate(Destinations.Experimental) },
                     onOpenLogs = { navController.navigate(Destinations.Logs) },
                 )
             }
@@ -78,6 +80,9 @@ fun TailNavGraph(navController: NavHostController = rememberNavController()) {
             }
             composable<Destinations.SubnetEditor> {
                 SubnetEditorScreen(onBack = { navController.popBackStack() })
+            }
+            composable<Destinations.Experimental> {
+                ExperimentalScreen(onBack = { navController.popBackStack() })
             }
             composable<Destinations.PeerDetail> { entry ->
                 val args = entry.toRoute<Destinations.PeerDetail>()

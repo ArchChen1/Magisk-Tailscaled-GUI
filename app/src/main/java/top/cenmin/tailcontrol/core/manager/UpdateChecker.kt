@@ -1,4 +1,4 @@
-package top.cenmin.tailcontrol.core.network
+package top.cenmin.tailcontrol.core.manager
 
 import android.content.Context
 import android.content.Intent

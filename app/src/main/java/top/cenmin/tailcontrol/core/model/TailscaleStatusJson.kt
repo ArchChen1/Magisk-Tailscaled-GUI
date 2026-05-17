@@ -19,6 +19,7 @@ data class TailscaleStatusJson(
     @SerialName("User") val user: Map<String, UserJson>? = null,
     @SerialName("MagicDNSSuffix") val magicDnsSuffix: String? = null,
     @SerialName("CurrentTailnet") val currentTailnet: TailnetJson? = null,
+    @SerialName("Health") val health: List<String>? = null,
 )
 
 @Serializable

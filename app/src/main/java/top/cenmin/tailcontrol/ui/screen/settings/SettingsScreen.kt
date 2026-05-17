@@ -58,6 +58,7 @@ fun SettingsScreen(
     onOpenAccounts: () -> Unit,
     onOpenExitNode: () -> Unit,
     onOpenSubnet: () -> Unit,
+    onOpenExperimental: () -> Unit,
     onOpenLogs: () -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
     updateViewModel: UpdateViewModel = hiltViewModel(),
@@ -232,6 +233,16 @@ fun SettingsScreen(
                                 Text("This device: ${dns.deviceDnsName}", style = MaterialTheme.typography.bodySmall)
                         }
                     }
+                }
+            }
+            // Experimental Pickers
+            ElevatedCard(Modifier.fillMaxWidth()) {
+                Column {
+                    PickerRow(
+                        label = stringResource(R.string.experimental_title),
+                        valuePreview = stringResource(R.string.experimental_subtitle),
+                        onClick = onOpenExperimental,
+                    )
                 }
             }
 

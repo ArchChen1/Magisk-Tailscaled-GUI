@@ -1,6 +1,7 @@
 package top.cenmin.tailcontrol.core.data
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import top.cenmin.tailcontrol.core.model.AccountItem
 import top.cenmin.tailcontrol.core.model.BackendState
 import top.cenmin.tailcontrol.core.model.DnsStatus
@@ -8,7 +9,6 @@ import top.cenmin.tailcontrol.core.model.TailscaleDevice
 import top.cenmin.tailcontrol.core.model.TailscaleJson
 import top.cenmin.tailcontrol.core.model.TailscaleStatus
 import top.cenmin.tailcontrol.core.model.TailscaleStatusJson
-import top.cenmin.tailcontrol.core.model.UserJson
 import top.cenmin.tailcontrol.core.model.WhoisInfo
 import top.cenmin.tailcontrol.core.model.toDevice
 import top.cenmin.tailcontrol.core.shell.CommandResult
@@ -19,6 +19,7 @@ import javax.inject.Singleton
 @Singleton
 class TailscaleRepository @Inject constructor(
     private val shell: RootShell,
+    private val prefs: PreferencesRepository,
 ) {
 
     suspend fun fetchStatus(): TailscaleStatus {
@@ -50,22 +51,44 @@ class TailscaleRepository @Inject constructor(
                         .thenBy { it.name.lowercase() }
                 ).orEmpty()
             val users = parsed.user?.entries?.associate { (k, v) -> (k.toLongOrNull() ?: -1L) to v }.orEmpty()
+            val healthCheck = parsed.health ?: emptyList()
             TailscaleStatus(
                 backendState = state,
                 self = self,
                 peers = peers,
                 users = users,
                 rawJson = raw,
+                healthCheck = healthCheck,
             )
         }.getOrElse {
             TailscaleStatus(backendState = BackendState.Unknown, rawJson = raw)
         }
     }
 
-    suspend fun up(args: String = ""): CommandResult =
-        shell.exec("tailscale up ${args.trim()}".trim())
+    /**
+     * 连接 tailscale。
+     * 若 AltRepo 版本体验优化已开启，先执行 `tailscaled.tun start`，
+     * 再执行 `tailscale up`，保证 TUN 脚本在连接前就位。
+     */
+    suspend fun up(args: String = ""): CommandResult {
+        if (prefs.altRepoOptimizationEnabled.first()) {
+            shell.exec("tailscaled.tun start")
+        }
+        return shell.exec("tailscale up ${args.trim()}".trim())
+    }
 
-    suspend fun down(): CommandResult = shell.exec("tailscale down")
+    /**
+     * 断开 tailscale。
+     * 若 AltRepo 版本体验优化已开启，执行 `tailscale down` 后再执行 `tailscaled.tun stop`，
+     * 保证路由/iptables 清理脚本在断开后运行。
+     */
+    suspend fun down(): CommandResult {
+        val result = shell.exec("tailscale down")
+        if (prefs.altRepoOptimizationEnabled.first()) {
+            shell.exec("tailscaled.tun stop")
+        }
+        return result
+    }
 
     suspend fun set(args: String): CommandResult = shell.exec("tailscale set ${args.trim()}".trim())
 

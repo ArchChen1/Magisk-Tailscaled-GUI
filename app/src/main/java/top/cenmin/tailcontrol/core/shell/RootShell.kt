@@ -24,45 +24,45 @@ data class CommandResult(
 @Singleton
 class RootShell @Inject constructor() {
 
+    // 缓存 tailscale 命令是否可用
+    private var tailscaleAvailable: Boolean? = null
+
     suspend fun isRoot(): Boolean = withContext(Dispatchers.IO) {
         runCatching { Shell.getShell().isRoot }.getOrDefault(false)
     }
-    // 提取命令名称
-    private fun extractCommandName(cmd: String): String {
-        return cmd.trim().split(Regex("\\s+")).firstOrNull() ?: cmd
+
+    // 检测 tailscale 命令是否可用（带缓存）
+    private fun isTailscaleAvailable(): Boolean {
+        tailscaleAvailable?.let { return it }
+        val result = runCatching {
+            val r = Shell.cmd("which tailscale").exec()
+            r.isSuccess && r.out.isNotEmpty()
+        }.getOrDefault(false)
+        tailscaleAvailable = result
+        return result
     }
 
-    // 检查是否是 "command not found" 错误
-    private fun isCommandNotFound(result: CommandResult): Boolean {
-        return !result.ok && (
-                result.err.any { line ->
-                    line.contains("not found", ignoreCase = true) ||
-                            line.contains("No such file", ignoreCase = true) ||
-                            line.contains("Permission denied", ignoreCase = true)
-                } ||
-                        result.text.contains("not found", ignoreCase = true)
-                )
+    // 判断命令是否需要使用 fallback PATH
+    private fun needsFallbackPath(cmd: String): Boolean {
+        // 只对 tailscale 相关命令进行检测
+        if (!cmd.contains("tailscale", ignoreCase = true)) return false
+        return !isTailscaleAvailable()
     }
 
     suspend fun exec(cmd: String): CommandResult = withContext(Dispatchers.IO) {
-        // 先尝试直接执行原命令
-        val directResult = runCatching {
-            val r = Shell.cmd(cmd).exec()
-            CommandResult(r.isSuccess, r.code, r.out.orEmpty(), r.err.orEmpty())
-        }.getOrElse {
-            CommandResult(false, -1, emptyList(), listOf(it.message.orEmpty()))
+        // 根据检测结果决定是否使用 fallback PATH
+        val finalCmd = if (needsFallbackPath(cmd)) {
+            withFallbackPath(cmd)
+        } else {
+            cmd
         }
 
-        if (isCommandNotFound(directResult)) {
-            // 使用带PATH的方式重试
-            runCatching {
-                val r = Shell.cmd(withFallbackPath(cmd)).exec()
-                CommandResult(r.isSuccess, r.code, r.out.orEmpty(), r.err.orEmpty())
-            }.getOrElse {
-                CommandResult(false, -1, emptyList(), listOf(it.message.orEmpty()))
-            }
-        } else {
-            directResult
+        // 执行命令
+        runCatching {
+            val r = Shell.cmd(finalCmd).exec()
+            CommandResult(r.isSuccess, r.code, r.out, r.err)
+        }.getOrElse {
+            CommandResult(false, -1, emptyList(), listOf(it.message.orEmpty()))
         }
     }
 
@@ -76,17 +76,8 @@ class RootShell @Inject constructor() {
      * 后 libsu 的 JobTask.setResult 仍试图向其提交回调，触发 RejectedExecutionException。
      */
     fun stream(cmd: String): Flow<String> = callbackFlow {
-        // 先快速检测命令是否可用
-        val checkCmd = extractCommandName(cmd)
-        val checkResult = runCatching {
-            Shell.cmd("which $checkCmd").exec()
-        }.getOrNull()
-
-        val commandNotFound = checkResult == null ||
-                (!checkResult.isSuccess && checkResult.out.orEmpty().isEmpty())
-
-        // 根据检测结果决定使用的命令
-        val finalCmd = if (commandNotFound) {
+        // 根据检测结果决定是否使用 fallback PATH
+        val finalCmd = if (needsFallbackPath(cmd)) {
             withFallbackPath(cmd)
         } else {
             cmd
@@ -120,7 +111,7 @@ class RootShell @Inject constructor() {
     // 兜底 PATH：KernelSU / 未挂载的 Magisk 环境下 /data/adb/modules/*/system/bin 不会进
     // PATH，导致 `tailscale` / `tailscaled.service` 找不到。把模块实际安装目录直接挂上去。
     private fun withFallbackPath(cmd: String): String =
-        "PATH=$FALLBACK_PATH:\$PATH $cmd"
+        $$"PATH=$$FALLBACK_PATH:$PATH $$cmd"
 
     private companion object {
         const val FALLBACK_PATH =

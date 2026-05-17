@@ -37,6 +37,7 @@ import top.cenmin.tailcontrol.R
 import top.cenmin.tailcontrol.core.model.BackendState
 import top.cenmin.tailcontrol.core.model.TailscaleDevice
 import top.cenmin.tailcontrol.ui.component.DeviceCard
+import top.cenmin.tailcontrol.ui.component.HealthBanner
 import top.cenmin.tailcontrol.ui.component.StatusCard
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,6 +52,7 @@ fun HomeScreen(
     val status = ui.status
     val self = status.self
     val isRunning = status.backendState is BackendState.Running
+    val undismissedHealthCheck = viewModel.getUndismissedHealthCheck()
 
     Scaffold(
         topBar = {
@@ -80,6 +82,13 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp),
             ) {
+                if (undismissedHealthCheck.isNotEmpty()) {
+                    HealthBanner(
+                        healthCheck = undismissedHealthCheck,
+                        onDismiss = viewModel::dismissAllHealthCheck,
+                        modifier = Modifier.padding(top = 12.dp),
+                    )
+                }
                 StatusCard(
                     state = status.backendState,
                     online = self?.online == true,

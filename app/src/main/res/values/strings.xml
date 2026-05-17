@@ -108,6 +108,19 @@
     <string name="update_later">Later</string>
     <string name="update_already_latest">Already the latest version</string>
     <string name="update_check_failed">Check update failed</string>
+    <string name="experimental_title">Experimental</string>
+    <string name="experimental_subtitle">Beta features, may be unstable</string>
+    <string name="experimental_warning">These features are experimental. They can be removed or changed at any time.</string>
+    <string name="experimental_altrepo_title">AltRepo Version Experience Optimization</string>
+    <string name="experimental_altrepo_desc">Enables optimizations for the AltRepo build.</string>
+    <string name="experimental_health_banner_title">Disable Health Banner</string>
+    <string name="experimental_health_banner_desc">Hide Tailscale health status warning banner</string>
+    <string name="health_check">⚠️ Health Check</string>
+    <string name="experimental_route_sync_btn">Sync Routes</string>
+    <string name="experimental_route_restore_btn">Restore Backup</string>
+    <string name="experimental_route_sync_hint">Reads current primary routes from tailscale status and writes them into tailscaled.tun.up/down, then restarts the TUN interface.</string>
+    <string name="experimental_route_sync_success_title">Routes Synced</string>
+    <string name="experimental_route_sync_failed_title">Sync Failed</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop daemon</string>
@@ -169,7 +182,7 @@
     <string name="waiting">Waiting…</string>
 
     <!-- Accounts -->
-    <string name="add_new_acc">Add another account</string>
+    <string name="add_new_acc">Add new account</string>
     <string name="tailscale_accounts">Tailscale accounts</string>
     <string name="admin_console">Open admin console</string>
     <string name="current">Current</string>
