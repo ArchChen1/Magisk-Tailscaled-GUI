@@ -3,6 +3,7 @@ package top.cenmin.tailcontrol.ui.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -14,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import top.cenmin.tailcontrol.R
 import top.cenmin.tailcontrol.core.manager.UpdateChecker
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun UpdateDialog(
@@ -37,8 +40,12 @@ fun UpdateDialog(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = updateResult.updateInfo.body.take(300),
-                        fontSize = 12.sp
+                        text = updateResult.updateInfo.body,
+                        fontSize = 12.sp,
+                        modifier = Modifier
+                            .heightIn(max = 200.dp)  // 限制最大高度
+                            .verticalScroll(rememberScrollState())
+
                     )
                 }
             },
