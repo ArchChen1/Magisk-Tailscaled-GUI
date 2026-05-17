@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import top.cenmin.tailcontrol.core.data.AltRepoRouteManager
+import top.cenmin.tailcontrol.core.manager.AltRepoRouteManager
 import top.cenmin.tailcontrol.core.data.PreferencesRepository
 import javax.inject.Inject
 

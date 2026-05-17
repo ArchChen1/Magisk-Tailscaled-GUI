@@ -44,6 +44,15 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             prefs.dynamicColorEnabled.collect { _ui.value = _ui.value.copy(dynamicColor = it) }
         }
+        viewModelScope.launch {
+            prefs.sshServerEnabled.collect {
+                _ui.value = _ui.value.copy(sshServerEnabled = it)
+                // 确保系统实际状态与 UI 状态同步
+                if (it) {
+                    tailRepo.setSshServer(true)
+                }
+            }
+        }
         refreshIdentity()
     }
 
@@ -72,8 +81,12 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _ui.value = _ui.value.copy(sshUpdating = true)
             val r = tailRepo.setSshServer(enabled)
-            _ui.value = if (r.ok) _ui.value.copy(sshServerEnabled = enabled, sshUpdating = false)
-            else _ui.value.copy(sshUpdating = false, saveError = r.text.ifBlank { "ssh toggle failed" })
+            if (r.ok) {
+                prefs.setSshServerEnabled(enabled)
+                _ui.value = _ui.value.copy(sshServerEnabled = enabled, sshUpdating = false)
+            } else {
+                _ui.value = _ui.value.copy(sshUpdating = false, saveError = r.text.ifBlank { "ssh toggle failed" })
+            }
         }
     }
 

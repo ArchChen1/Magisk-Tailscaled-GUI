@@ -1,5 +1,6 @@
-package top.cenmin.tailcontrol.core.data
+package top.cenmin.tailcontrol.core.manager
 
+import top.cenmin.tailcontrol.core.data.TailscaleRepository
 import top.cenmin.tailcontrol.core.shell.RootShell
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -67,23 +68,24 @@ class AltRepoRouteManager @Inject constructor(
         val upBlock   = buildUpBlock(routes)
         val downBlock = buildDownBlock(routes)
 
-        // 5. 写入文件（先编辑好再操作 tun，不中断当前运行状态）
+        // 5. 先停止 tun，再写入文件，最后启动
+        var msg = "Routes synced: ${routes.joinToString(", ")}\n"
+
+        val stopResult = shell.exec("tailscaled.tun stop")
+        msg += "tun stop: ${if (stopResult.ok) "OK" else stopResult.text}\n"
+
         val upResult   = injectBlock(TUN_UP,   upBlock)
         val downResult = injectBlock(TUN_DOWN, downBlock)
 
-        if (!upResult.ok)   return SyncResult(ok = false, message = "Failed to write tun.up: ${upResult.message}")
-        if (!downResult.ok) return SyncResult(ok = false, message = "Failed to write tun.down: ${downResult.message}")
+        if (!upResult.ok)   return SyncResult(ok = false, message = "${msg}Failed to write tun.up: ${upResult.message}")
+        if (!downResult.ok) return SyncResult(ok = false, message = "${msg}Failed to write tun.down: ${downResult.message}")
 
-        // 6. 代码块已就位，restart 让新脚本生效（stop 旧状态 → start 新脚本）
-        val restartResult = shell.exec("tailscaled.tun restart")
-        val restartMsg = if (restartResult.ok) "OK" else restartResult.text
+        val startResult = shell.exec("tailscaled.tun start")
+        msg += "tun start: ${if (startResult.ok) "OK" else startResult.text}"
 
         return SyncResult(
-            ok = restartResult.ok,
-            message = buildString {
-                append("Routes synced: ${routes.joinToString(", ")}\n")
-                append("tun restart: $restartMsg")
-            },
+            ok = startResult.ok,
+            message = msg.trim(),
             routes = routes,
         )
     }

@@ -118,7 +118,7 @@
     <string name="health_check">⚠️ Health Check</string>
     <string name="experimental_route_sync_btn">Sync Routes</string>
     <string name="experimental_route_restore_btn">Restore Backup</string>
-    <string name="experimental_route_sync_hint">Reads current primary routes from tailscale status and writes them into tailscaled.tun.up/down, then restarts the TUN interface.</string>
+    <string name="experimental_route_sync_hint">Read current primary routes and writes them into tailscaled.tun.up/down, then restart TUN. If new subnets have been added, remember to sync once.</string>
     <string name="experimental_route_sync_success_title">Routes Synced</string>
     <string name="experimental_route_sync_failed_title">Sync Failed</string>
 
@@ -180,6 +180,7 @@
     <string name="transferring">Transferring…</string>
     <string name="file_transfer">File transfer</string>
     <string name="waiting">Waiting…</string>
+    <string name="transfer_complete_progress">Complete🎉🎉🎉</string>
 
     <!-- Accounts -->
     <string name="add_new_acc">Add new account</string>

@@ -111,10 +111,15 @@
     <string name="experimental_subtitle">Beta 功能，可能不稳定</string>
     <string name="experimental_warning">以下功能处于实验阶段，随时可能变更或移除。</string>
     <string name="experimental_altrepo_title">AltRepo 版本体验优化</string>
-    <string name="experimental_altrepo_desc">启用来自 AltRepo 构建的优化。</string>
+    <string name="experimental_altrepo_desc">启用针对 AltRepo 构建的优化。</string>
     <string name="experimental_health_banner_title">禁用健康检查横幅</string>
     <string name="experimental_health_banner_desc">隐藏 Tailscale 健康状态警告横幅</string>
     <string name="health_check">⚠️ 健康检查</string>
+    <string name="experimental_route_sync_btn">同步路由</string>
+    <string name="experimental_route_restore_btn">还原备份</string>
+    <string name="experimental_route_sync_hint">获取当前 primary routes，写入 tailscaled.tun.up/down 后重启 TUN 接口。如果有添加新的子网记得同步一次</string>
+    <string name="experimental_route_sync_success_title">路由同步成功</string>
+    <string name="experimental_route_sync_failed_title">路由同步失败</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop 守护</string>
@@ -174,11 +179,7 @@
     <string name="transferring">传输中…</string>
     <string name="file_transfer">文件传输</string>
     <string name="waiting">等待中…</string>
-    <string name="experimental_route_sync_btn">同步路由</string>
-    <string name="experimental_route_restore_btn">还原备份</string>
-    <string name="experimental_route_sync_hint">从 tailscale status 读取当前 primary routes，写入 tailscaled.tun.up/down 后重启 TUN 接口。</string>
-    <string name="experimental_route_sync_success_title">路由同步成功</string>
-    <string name="experimental_route_sync_failed_title">路由同步失败</string>
+    <string name="transfer_complete_progress">已完成🎉🎉🎉</string>
 
     <!-- Accounts -->
     <string name="add_new_acc">添加新账户</string>

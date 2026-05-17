@@ -22,6 +22,7 @@ import top.cenmin.tailcontrol.core.model.TailscaleDevice
 import top.cenmin.tailcontrol.service.FileTransferService
 import javax.inject.Inject
 import com.topjohnwu.superuser.Shell
+
 data class FileShareUiState(
     val fileUri: Uri? = null,
     val fileName: String = "",
@@ -140,7 +141,9 @@ class FileShareViewModel @Inject constructor(
                                     output.flush()
 
                                     totalWritten += read
-                                    val currentPercent = ((totalWritten.toDouble() / total) * 100).toInt()
+                                    // 限制最大进度为 99%，避免未完成就显示 100%
+                                    var currentPercent = ((totalWritten.toDouble() / total) * 100).toInt()
+                                    if (currentPercent >= 100) currentPercent = 99
 
                                     // 每变化 1% 或每 1MB 更新一次 UI，避免过于频繁
                                     if (currentPercent > lastProgressPercent || totalWritten % (1024 * 1024) < buffer.size) {
@@ -176,7 +179,7 @@ class FileShareViewModel @Inject constructor(
                             transferring = false,
                             transferFinished = true,
                             progressPercent = 100,
-                            progressText = "100%"
+                            progressText = app.getString(top.cenmin.tailcontrol.R.string.transfer_complete_progress)
                         )
                         pushNotification(100, app.getString(top.cenmin.tailcontrol.R.string.transfer_complete))
                     } else {
@@ -314,7 +317,8 @@ class FileShareViewModel @Inject constructor(
                                     else -> lastTotalTx
                                 }
                                 val delta = currentTx - lastTx
-                                val pct = ((delta.toDouble() / total) * 100).toInt().coerceIn(0, 99)
+                                var pct = ((delta.toDouble() / total) * 100).toInt().coerceIn(0, 99)
+                                if (pct >= 100) pct = 99
                                 withContext(Dispatchers.Main) {
                                     _ui.value = _ui.value.copy(progressPercent = pct, progressText = "$pct%")
                                 }
@@ -342,7 +346,7 @@ class FileShareViewModel @Inject constructor(
                             transferring = false,
                             transferFinished = true,
                             progressPercent = 100,
-                            progressText = "100%"
+                            progressText = app.getString(top.cenmin.tailcontrol.R.string.transfer_complete_progress)
                         )
                         pushNotification(100, app.getString(top.cenmin.tailcontrol.R.string.transfer_complete))
                     } else {

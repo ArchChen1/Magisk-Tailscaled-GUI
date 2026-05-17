@@ -28,6 +28,7 @@ private object Keys {
     val ADVERTISE_ROUTES = stringPreferencesKey("advertiseRoutes")
     val CUSTOM_NAME = stringPreferencesKey("customName")
     val CUSTOM_PARAMS = stringPreferencesKey("customParams")
+    val SSH_SERVER_ENABLED = booleanPreferencesKey("ssh_server_enabled")
 
     val DROP_ENABLED = booleanPreferencesKey("drop_enabled")
     val DROP_PATH = stringPreferencesKey("drop_path")
@@ -107,6 +108,12 @@ class PreferencesRepository @Inject constructor(
     val altRepoOptimizationEnabled: Flow<Boolean> = store.data.map { it[Keys.ALT_REPO_OPTIMIZATION] ?: false }
 
     val healthBannerDisabled: Flow<Boolean> = store.data.map { it[Keys.HEALTH_BANNER_DISABLED] ?: false }
+
+    val sshServerEnabled: Flow<Boolean> = store.data.map { it[Keys.SSH_SERVER_ENABLED] ?: false }
+
+    suspend fun setSshServerEnabled(enabled: Boolean) {
+        store.edit { it[Keys.SSH_SERVER_ENABLED] = enabled }
+    }
     suspend fun saveTailscaleSettings(settings: TailscaleSettings) {
         store.edit { p ->
             p[Keys.ACCEPT_ROUTES] = settings.acceptRoutes
