@@ -25,6 +25,7 @@ object Destinations {
     @Serializable data object ExitNodePicker
     @Serializable data object SubnetEditor
     @Serializable data object Experimental
+    @Serializable data object NavBarCustomizer
     @Serializable data class PeerDetail(val name: String)
 }
 

@@ -121,6 +121,10 @@
     <string name="experimental_route_sync_hint">Read current primary routes and writes them into tailscaled.tun.up/down, then restart TUN. If new subnets have been added, remember to sync once.</string>
     <string name="experimental_route_sync_success_title">Routes Synced</string>
     <string name="experimental_route_sync_failed_title">Sync Failed</string>
+    <string name="nav_customizer_title">Navigation Bar</string>
+    <string name="nav_customizer_subtitle">Choose which tabs appear in the bottom bar</string>
+    <string name="nav_customizer_hint">Home and Settings are always visible. Toggle other tabs on or off.</string>
+    <string name="nav_customizer_pinned">Always shown</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop daemon</string>

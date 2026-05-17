@@ -120,6 +120,10 @@
     <string name="experimental_route_sync_hint">获取当前 primary routes，写入 tailscaled.tun.up/down 后重启 TUN 接口。如果有添加新的子网记得同步一次</string>
     <string name="experimental_route_sync_success_title">路由同步成功</string>
     <string name="experimental_route_sync_failed_title">路由同步失败</string>
+    <string name="nav_customizer_title">导航栏</string>
+    <string name="nav_customizer_subtitle">选择底部导航栏显示的标签页</string>
+    <string name="nav_customizer_hint">主页和设置始终保留，其他标签可自由开关。</string>
+    <string name="nav_customizer_pinned">始终显示</string>
 
     <!-- Drop -->
     <string name="drop_label">Drop 守护</string>

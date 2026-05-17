@@ -42,6 +42,7 @@ private object Keys {
     val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
     val ALT_REPO_OPTIMIZATION = booleanPreferencesKey("alt_repo_optimization")
     val HEALTH_BANNER_DISABLED = booleanPreferencesKey("health_banner_disabled")
+    val NAV_HIDDEN_ITEMS = stringPreferencesKey("nav_hidden_items")
 
     val LAST_UPDATE_CHECK_DATE = stringPreferencesKey("last_update_check_date")
 }
@@ -113,6 +114,18 @@ class PreferencesRepository @Inject constructor(
 
     suspend fun setSshServerEnabled(enabled: Boolean) {
         store.edit { it[Keys.SSH_SERVER_ENABLED] = enabled }
+    }
+
+    val navHiddenItems: Flow<Set<String>> = store.data.map { p ->
+        p[Keys.NAV_HIDDEN_ITEMS]
+            ?.split(",")
+            ?.filter { it.isNotBlank() }
+            ?.toSet()
+            ?: emptySet()
+    }
+
+    suspend fun setNavHiddenItems(hidden: Set<String>) {
+        store.edit { it[Keys.NAV_HIDDEN_ITEMS] = hidden.joinToString(",") }
     }
     suspend fun saveTailscaleSettings(settings: TailscaleSettings) {
         store.edit { p ->
